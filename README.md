@@ -19,6 +19,9 @@ There are also versions currently in development, specifically version 5 and of 
 * ensure the system works with piecewise defined functions
 * produce a clean and intuitive format for transformations of vectors 
 * implement the user creation of alternate coordinate frames using arbitrary variables (under development) that can be specified as arbitrary transformations of frames already specified in the system
+
+There are also goals I want to implement, but likely are best to be pushed off to a future version. They are:
+* rework each frame to only have one set of coordinates: the "Cartesian"/natural coordinates of that frame. This will make implementation of new/custom coordinate frames much more natural. I feel it is cleaner overall (it might even cut down on code size). I shoudl point out, it will take three coordinate frames with this new addition to implement what the current version has in only one frame. That is ok, and actually better by some standards.
 * fix the formatter (under development)
 
 Currently the 3d version is still being implemented at the level of version 4. Once version 5 is stable, then the 3d version will be upgraded to version 5 functionality. 
