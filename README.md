@@ -30,11 +30,14 @@ Naturally there are other features to be implemented (of varying degrees of impo
 * implementation of time varying quantities, such as time varying vector fields
 * support for reference frames in the context of special relativity
 * support for non-inertial reference frames (essentially just time varying transformations)
+* make manipulation functions (like ToCartesian and ToPolar) work with numeric vectors, which may require...
 * separation of vector fields and vectors, allowing implementation of kinematic quantities and other physical effects
 * small editing of the built in functions: Grad, Div, and Curl to make working with them less verbose
 * small set of common electric and magnetic fields such as: point charge, infinite line of current, point electric dipole, point magnetic dipole. And maybe others. 
 * inclusion of formulas a few common electric and magnetic quantities like the Poynting vector and the Maxwell stress tensor
 * support for making basic plots and visualizations with the built-in Mathematica functions
 * potentially very basic integral support (tentative)
+* produce a "nice" mathematical way of enterying expressions representing the gradient, divergence, and curl of expressions using the del operator
+* perhaps consider overloading the Set operator so that if the rhs is a vector, it will default to use the UpSet operator. This could work, and, though the UpSet operator honestly isn't that bad, will actually make some expressions look more mathematical
 
 It is not possible for all of these features to be implemented side by side: some users won't want any modification of the built in functions (such as Grad, Div, and Curl); some users have no need for all the extra E&M components; and I'm sure any special relativity implementation would clash with a *lot* of other features. So, the exact details of how all the different versions will be organized on this site and on individuals' copies is yet to be determined.
