@@ -1,0 +1,1003 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     42464,        995]
+NotebookOptionsPosition[     37610,        930]
+NotebookOutlinePosition[     37983,        946]
+CellTagsIndexPosition[     37940,        943]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["First, import the package to use it", "Text",
+ CellChangeTimes->{{3.7913922259076977`*^9, 
+  3.791392241334075*^9}},ExpressionUUID->"2bf6b46e-c00d-4378-b480-\
+4c5cd593e02a"],
+
+Cell[BoxData[
+ RowBox[{"<<", "PhysicsVectors2Dv4`"}]], "Input",
+ CellChangeTimes->{{3.791391983029738*^9, 3.791391983978807*^9}, {
+  3.7913921931821594`*^9, 3.791392212186557*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"2bc449ce-bb59-40fc-980d-515882b278a3"],
+
+Cell[TextData[{
+ "Now click on ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Palettes", "\[Rule]", 
+    RowBox[{"2", "D", " ", "Vector", " ", "Library", " ", "Palette"}]}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "52e9f7cd-5ab3-413f-a534-f7017fb4c927"],
+ " in the menu bar at the top. You should now have the palette displayed \
+somewhere on the screen.\n\nThere are now four symbols with custom meanings: \
+x y r \[Phi]. You can use these as their standard meanings in a 2-D Cartesian \
+or polar coordinate system to define scalar functions. The library assumes \
+all four coordinates are real, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"r", ">", "0"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "784120fd-2aad-4f44-8f54-0d5ff3246f13"],
+ ", and that ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"-", "\[Pi]"}], "<", "\[Phi]", "<", "\[Pi]"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "8f7e38cb-0bab-4bb7-a9f4-4c4d96bcf29e"],
+ ". Mixing coordinates systems together is fine. Type \[Phi] as Esc phi Esc. "
+}], "Text",
+ InitializationCell->True,
+ CellChangeTimes->{{3.791392254678932*^9, 3.791392257601884*^9}, {
+  3.791398647219492*^9, 3.7913987636390085`*^9}, {3.791398801208866*^9, 
+  3.7913988610463467`*^9}, {3.79139890238501*^9, 3.791398947885699*^9}, {
+  3.791399009348431*^9, 3.79139902979539*^9}, {3.791399155939824*^9, 
+  3.791399180216958*^9}, {3.791405224456208*^9, 3.7914052277469416`*^9}, {
+  3.7914056010740986`*^9, 
+  3.7914056668420258`*^9}},ExpressionUUID->"dc9114b1-c882-42d1-bb3e-\
+f50ef3fbbeea"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["x", "2"], "r"}], "-", 
+    RowBox[{
+     SqrtBox[
+      RowBox[{"5", "y"}]], "\[Phi]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"g", "=", 
+   RowBox[{
+    SuperscriptBox["r", "2"], "-", 
+    RowBox[{"y", 
+     SqrtBox["\[Phi]"]}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.791398951603907*^9, 3.79139897576064*^9}, {
+  3.791399251346776*^9, 3.7913992964415503`*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"5eba6da9-6ca1-4a44-9358-d1534a8170a3"],
+
+Cell[TextData[{
+ "Note that these are not \[OpenCurlyDoubleQuote]functions\
+\[CloseCurlyDoubleQuote] in the Mathematica sense. In Mathematica, f and g \
+are only acting as symbols that store those expressions: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{"1", ",", "2"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "2e8f8208-0e42-4310-8997-2fb640b0e1cf"],
+ " will not work. From now on if I say \[OpenCurlyDoubleQuote]function\
+\[CloseCurlyDoubleQuote] it is technically just an expression in Mathematica \
+lingo. A Mathematica function will be specified as such if necessary (it won\
+\[CloseCurlyQuote]t be though)."
+}], "Text",
+ CellChangeTimes->{{3.791399040299091*^9, 3.7913990593991632`*^9}, {
+   3.7913990924031916`*^9, 3.7913991517639585`*^9}, {3.791399305082609*^9, 
+   3.7913993768621264`*^9}, {3.7913995468060417`*^9, 3.791399616503167*^9}, {
+   3.791399718887757*^9, 3.7913998362141685`*^9}, {3.7913999193412237`*^9, 
+   3.791399946967287*^9}, {3.791400063145537*^9, 3.791400068384728*^9}, {
+   3.7914001058016033`*^9, 3.791400191101386*^9}, 3.7914003097227087`*^9, {
+   3.791400353181076*^9, 3.7914003861644115`*^9}, {3.7914006448378487`*^9, 
+   3.7914007318046923`*^9}},ExpressionUUID->"173951d8-70f2-493e-b008-\
+c29fb6fa08b4"],
+
+Cell[TextData[{
+ "Though ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"f", "[", 
+    RowBox[{"1", ",", "2"}], "]"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "13e7b9d4-64e7-4c91-ba03-1052dc198a8f"],
+ " doesn\[CloseCurlyQuote]t work, one can get the value at a specific \
+location using rules. For example: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"x", "\[Rule]", "1"}], ",", 
+     RowBox[{"y", "\[Rule]", "2"}], ",", 
+     RowBox[{"r", "\[Rule]", 
+      SqrtBox["5"]}], ",", 
+     RowBox[{"\[Phi]", "\[Rule]", 
+      RowBox[{"ArcTan", "[", "2", "]"}]}]}], "}"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "c417f479-3e2b-4090-b65a-a88e080aa7d2"],
+ ". There is a function to build these for you called ValAt. Because ValAt \
+produces a list of rules you must use ",
+ Cell[BoxData[
+  FormBox["/.", TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "426d26ba-22f2-4825-8b3a-bec43ce13cf3"],
+ " (Replace) with it as shown below"
+}], "Text",
+ CellChangeTimes->{{3.791399040299091*^9, 3.7913990593991632`*^9}, {
+   3.7913990924031916`*^9, 3.7913991517639585`*^9}, {3.791399305082609*^9, 
+   3.7913993768621264`*^9}, {3.7913995468060417`*^9, 3.791399616503167*^9}, {
+   3.791399718887757*^9, 3.7913998362141685`*^9}, {3.7913999193412237`*^9, 
+   3.791399946967287*^9}, {3.791400063145537*^9, 3.791400068384728*^9}, {
+   3.7914001058016033`*^9, 3.791400191101386*^9}, 3.7914003097227087`*^9, {
+   3.791400353181076*^9, 3.7914003861644115`*^9}, {3.7914006448378487`*^9, 
+   3.791400846645928*^9}},ExpressionUUID->"35e53f93-926f-4a99-8e02-\
+40f9caebb937"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["x", 
+    RowBox[{"3", "/", "2"}]], "+", "y", "+", 
+   FractionBox[
+    RowBox[{"Sin", "[", "\[Phi]", "]"}], "r"]}], "/.", 
+  RowBox[{"ValAt", "[", 
+   RowBox[{"1", ",", "2"}], "]"}], 
+  RowBox[{"(*", 
+   RowBox[{"Default", " ", "is", " ", "Cartesian"}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.791400393338418*^9, 3.7914004497266126`*^9}, {
+  3.7914004800057464`*^9, 
+  3.7914005050288057`*^9}},ExpressionUUID->"60810e19-b8b9-4b89-ad92-\
+4eeffcd9fc0a"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["x", 
+    RowBox[{"3", "/", "2"}]], "+", "y", "+", 
+   FractionBox[
+    RowBox[{"Sin", "[", "\[Phi]", "]"}], "r"]}], "/.", 
+  RowBox[{"ValAt", "[", 
+   RowBox[{
+    SqrtBox["5"], ",", 
+    RowBox[{"ArcTan", "[", "2", "]"}], ",", "\"\<Polar\>\""}], "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+   "This", " ", "is", " ", "how", " ", "you", " ", "do", " ", "polar"}], 
+   "*)"}]}]], "Input",
+ CellChangeTimes->{{3.791400487494356*^9, 3.7914005158084044`*^9}, {
+  3.791400553825754*^9, 3.7914005629160166`*^9}},
+ CellLabel->"",ExpressionUUID->"22ba88bc-a4d9-4704-9f48-acfc204832f1"],
+
+Cell["\<\
+You can also use ValAt with symbolic inputs, for example: to get a function \
+describing the value of a function on a line of constant value: \
+\>", "Text",
+ CellChangeTimes->{{3.7914005696796246`*^9, 3.7914006223703623`*^9}, {
+  3.791400867597412*^9, 3.7914008743272643`*^9}, {3.791400919181447*^9, 
+  3.7914009274742737`*^9}, {3.791401379420495*^9, 3.791401400190382*^9}, {
+  3.7914014500671806`*^9, 3.791401460236767*^9}, {3.7914018723079543`*^9, 
+  3.7914018874863577`*^9}, {3.791401953526264*^9, 
+  3.791401954917837*^9}},ExpressionUUID->"f88c3b10-b8a4-43ae-aeb9-\
+79e62a1fba27"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["x", 
+    RowBox[{"3", "/", "2"}]], "+", "y", "+", 
+   FractionBox[
+    RowBox[{"Sin", "[", "\[Phi]", "]"}], "r"]}], "/.", 
+  RowBox[{"ValAt", "[", 
+   RowBox[{"1", ",", "y"}], "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "For", " ", "the", " ", "vertical", " ", "line", " ", "at", " ", "x"}], 
+    " ", "=", " ", "1"}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.791401418218754*^9, 3.7914014786449203`*^9}, {
+  3.79140161398493*^9, 3.7914016518467655`*^9}, {3.7914017615256095`*^9, 
+  3.7914018153324313`*^9}, {3.791402063377818*^9, 
+  3.79140206343106*^9}},ExpressionUUID->"2aa90279-23dc-4031-aa50-\
+fd726c137e75"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["x", 
+    RowBox[{"3", "/", "2"}]], "+", "y", "+", 
+   FractionBox[
+    RowBox[{"Sin", "[", "\[Phi]", "]"}], "r"]}], "/.", 
+  RowBox[{"ValAt", "[", 
+   RowBox[{
+    SqrtBox["5"], ",", "\[Phi]", ",", "\"\<Polar\>\""}], "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"The", " ", "circle", " ", "at", " ", "r"}], " ", "=", " ", 
+    SqrtBox["5"]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.7914015081898603`*^9, 3.791401540624885*^9}, {
+  3.7914020692733297`*^9, 
+  3.7914021043422585`*^9}},ExpressionUUID->"11602737-e8a9-4b9d-b1e7-\
+6dc9bcae380f"],
+
+Cell["\<\
+You can use the palette to manipulate expressions. Highlight the below \
+expression then click ToCartesian to re-express it using only x  and y.\
+\>", "Text",
+ CellChangeTimes->{{3.791399040299091*^9, 3.7913990593991632`*^9}, {
+  3.7913990924031916`*^9, 3.7913991517639585`*^9}, {3.791399305082609*^9, 
+  3.7913993768621264`*^9}, {3.7913995468060417`*^9, 3.791399616503167*^9}, {
+  3.791399718887757*^9, 3.7913998362141685`*^9}, {3.7913999193412237`*^9, 
+  3.791399946967287*^9}, {3.791400063145537*^9, 3.791400068384728*^9}, {
+  3.7914001058016033`*^9, 
+  3.791400131210648*^9}},ExpressionUUID->"71c1f4aa-9f25-4f43-976d-\
+1dbacc15abf9"],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["r", "2"], "-", 
+  RowBox[{"y", 
+   SqrtBox["\[Phi]"]}]}]], "Input",
+ CellChangeTimes->{{3.7913994060472345`*^9, 3.791399406122258*^9}, {
+  3.7917675456716766`*^9, 
+  3.791767565781048*^9}},ExpressionUUID->"3ff8732e-7222-43e4-825c-\
+3e0d8c32065d"],
+
+Cell[TextData[{
+ "Hit Ctrl + z twice to undo that evaluation if you want (this is one of the \
+few cases Undo actually works with this library. It typically doesn\
+\[CloseCurlyQuote]t, this is unfortunate and I am sorry, unfortunately fixing \
+that is a bit beyond my skills). Obviously there is also a ToPolar function \
+that works analogously. You can also select parts of expressions to modify \
+them selectively. The below expression is most easily expressed as ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["r", "2"], " ", "y"}], "\[Phi]"]}], "+", "\[Phi]"}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "ad456499-1d4c-4d2d-b340-ea4aeefaccb4"],
+ ". Highlight the ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["x", "2"], "+", 
+    SuperscriptBox["y", "2"]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "7970c0be-8baf-4dbc-8330-d68b8e2f8186"],
+ " term and click ToPolar in the palette. Now highlight the whole expression \
+and click Simplify in the palette (this is the standard Mathematica \
+Simplify). You should get the simplified expression. "
+}], "Text",
+ CellChangeTimes->{{3.7913994460072947`*^9, 3.7913995243070774`*^9}, {
+   3.791402121318362*^9, 3.791402173708102*^9}, 3.7914022792525854`*^9, {
+   3.7914023181678157`*^9, 3.7914024451862335`*^9}, {3.791403085052718*^9, 
+   3.791403136591436*^9}, {3.791403248146329*^9, 3.791403381592639*^9}, {
+   3.791404424581644*^9, 
+   3.791404484688961*^9}},ExpressionUUID->"3879218c-05fd-4ca1-acd9-\
+748f715bfdbd"],
+
+Cell[BoxData[
+ RowBox[{"\[Phi]", "-", 
+  FractionBox[
+   RowBox[{"y", 
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox["x", "2"], "+", 
+      SuperscriptBox["y", "2"]}], ")"}]}], "\[Phi]"]}]], "Input",
+ CellChangeTimes->{{3.7914024799067993`*^9, 3.7914025060238647`*^9}, {
+  3.7914029003494596`*^9, 3.7914030417985296`*^9}, {3.7914032345189204`*^9, 
+  3.7914032390228577`*^9}, {3.7914033867959805`*^9, 
+  3.791403402233036*^9}},ExpressionUUID->"95daadda-352e-4e86-803b-\
+abcbfd684e08"],
+
+Cell[TextData[{
+ "Be warned you can use this to trick the system and make it break the \
+correct order of operations, giving you wrong answers. Highlight just the ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"y", "+", "y"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "788c5c0e-557b-4284-ac99-5be0a331605f"],
+ " part of the below expression, not the ",
+ Cell[BoxData[
+  FormBox["2", TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "9f886e25-7191-4d72-b209-17a7c406b09a"],
+ ", and click Simplify. Now highlight the whole expression and click Simplify \
+once more. As you can see we took an expression that should be ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"3", "y"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "4edf8f83-334f-4377-8e3b-94f1f25674dd"],
+ " and made it ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"4", "y"}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "efee817e-ffb5-4ff8-adaf-dc99416dac42"],
+ ". "
+}], "Text",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7913994460072947`*^9, 3.7913995243070774`*^9}, {
+   3.791402121318362*^9, 3.791402173708102*^9}, 3.7914022792525854`*^9, {
+   3.7914023181678157`*^9, 3.791402353192726*^9}, {3.791403434849249*^9, 
+   3.7914034903026*^9}, {3.7914035778905244`*^9, 
+   3.791403763672557*^9}},ExpressionUUID->"cc112caf-6da8-4607-b026-\
+7de880bd8f26"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"2", " ", "y"}], "+", "y"}]], "Input",
+ CellChangeTimes->{{3.7914022870422287`*^9, 3.791402301162566*^9}, {
+  3.79140341586629*^9, 
+  3.7914034193312335`*^9}},ExpressionUUID->"567bba3f-0241-48f9-9a5d-\
+ac321438e97e"],
+
+Cell["\<\
+As long as you don' t make simplifications or conversions that will obviously \
+violate the order of operations like above you should be fine. But as always, \
+verifying your answer in a way not using how you obtained it (as in: outside \
+of this library) is never a bad idea.\
+\>", "Text",
+ CellChangeTimes->{{3.791403751135233*^9, 3.7914037539195957`*^9}, 
+   3.7914039656550016`*^9},ExpressionUUID->"29498afa-5bb6-4def-9b21-\
+a288d9f0b120"],
+
+Cell[TextData[{
+ "By the way, in the realm of algebraic operations, the palette in ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Palettes", "\[Rule]", 
+    RowBox[{"Other", "\[Rule]", 
+     RowBox[{"Algebraic", " ", "Manipulation"}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "c52b4602-6018-4898-92b8-29a55b05dd5e"],
+ " is pretty useful too. Do note that its Simplify function is the same as \
+this library\[CloseCurlyQuote]s Simplify function, there is no difference."
+}], "Text",
+ CellChangeTimes->{{3.7914038073745394`*^9, 3.7914039609217176`*^9}, {
+  3.7914040112251043`*^9, 3.7914040149282484`*^9}, {3.7914041950401864`*^9, 
+  3.79140419517981*^9}},ExpressionUUID->"b42f464c-bd92-4ebc-9eec-\
+82e7d5bcdb65"],
+
+Cell[TextData[{
+ "All of these functions can also be entered in the expression using the \
+keyboard manually. You can do this if you need to enter additional arguments \
+for functions, such as ",
+ Cell[BoxData[
+  FormBox["Assumptions", TraditionalForm]],ExpressionUUID->
+  "d5de7bac-ab33-4370-9a04-6ba44164622b"],
+ " for ",
+ Cell[BoxData[
+  FormBox["Simplify", TraditionalForm]],ExpressionUUID->
+  "0a9c0f3a-d91b-4120-b441-647ecc9bc10d"],
+ " or if you need to be very explicit on what operations are being done. \
+Typically you use Shift + Enter to evaluate these expressions, then modify \
+its output and continue from there. If you don\[CloseCurlyQuote]t want to \
+fill your notebook with many small output cells and changes in this \
+situation, then use Ctrl + Shift + Enter to evaluate an expression inline. \
+Try highlighting the ToPolar block below and evaluate it inline, then \
+evaluate the Simplify block (the whole expression) inline"
+}], "Text",
+ CellChangeTimes->{{3.791404027913173*^9, 3.79140406444287*^9}, {
+  3.7914041119397*^9, 3.791404218319448*^9}, {3.7914042629975357`*^9, 
+  3.7914042954545155`*^9}, {3.791404334873393*^9, 3.791404392180526*^9}, {
+  3.7914045463706417`*^9, 3.791404561552905*^9}, {3.7917704242610435`*^9, 
+  3.791770465925351*^9}},ExpressionUUID->"5f95a34c-071a-405a-a974-\
+508b7fe040f5"],
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  SqrtBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["r", "2"], " ", 
+     SuperscriptBox[
+      RowBox[{"Cos", "[", "\[Phi]", "]"}], "2"]}], "+", 
+    RowBox[{"ToPolar", "[", 
+     SuperscriptBox["y", "2"], "]"}]}]], "]"}]], "Input",
+ CellChangeTimes->{{3.7914045803117466`*^9, 3.7914046213636627`*^9}, {
+  3.7914046537987623`*^9, 3.791404679196672*^9}, {3.7914245016968384`*^9, 
+  3.7914245438598366`*^9}, {3.791770177013748*^9, 3.7917702150570498`*^9}, {
+  3.7917702479371862`*^9, 3.791770417110936*^9}, {3.7917704875781417`*^9, 
+  3.791770499817373*^9}, {3.791770536113875*^9, 
+  3.791770566780876*^9}},ExpressionUUID->"8a98d794-12fb-4e40-8ba4-\
+c7edd9abb22b"],
+
+Cell["\<\
+Now that we have the scalars done, we can use vectors. 
+
+Entering vectors looks much like the standard mathematical syntax, though it \
+can be a bit slow to type. Use Ctrl + 7 to create an OverBox, then Shift + 6 \
+to enter a ^ (called a hat, caret, or circumflex): \
+\>", "Text",
+ CellChangeTimes->{{3.791424592352084*^9, 3.791424695832433*^9}, {
+  3.7914247772058964`*^9, 3.791424797145855*^9}, {3.7914248301595745`*^9, 
+  3.7914248485697002`*^9}, {3.791766833016408*^9, 
+  3.7917668341100464`*^9}},ExpressionUUID->"0e5f9500-6573-42dd-91c0-\
+8cd7c31a0fa7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"a", "^=", 
+  RowBox[{
+   RowBox[{"5", 
+    OverscriptBox["x", "^"]}], "+", 
+   RowBox[{"r", " ", 
+    OverscriptBox["y", "^"]}], "-", 
+   RowBox[{
+    RowBox[{"Sin", "[", "\[Phi]", "]"}], 
+    OverscriptBox["\[Phi]", "^"]}], "-", 
+   RowBox[{"x", " ", "y", " ", 
+    OverscriptBox["r", "^"]}]}]}]], "Input",
+ CellChangeTimes->{{3.791424886030446*^9, 3.791424891623573*^9}, {
+  3.7917669142060876`*^9, 3.791766974953146*^9}, {3.7917672189344273`*^9, 
+  3.79176723109663*^9}, {3.7917707473793726`*^9, 
+  3.791770747957536*^9}},ExpressionUUID->"80f66343-903c-4fd8-8f6f-\
+33ae8dd88afe"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"5", 
+   OverscriptBox["x", "^"], "+", "r", 
+   OverscriptBox["y", "^"], "-", 
+   RowBox[{"x", " ", "y"}], 
+   OverscriptBox["r", "^"], "-", 
+   RowBox[{"Sin", "[", "\[Phi]", "]"}], 
+   OverscriptBox["\[Phi]", "^"]}],
+  DisplayForm]], "Output",
+ CellChangeTimes->{3.7917673360933037`*^9, 3.7917675905182447`*^9, 
+  3.7917681595736456`*^9, 3.7917682992091613`*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"f6c22c6c-5c69-4380-a634-857ab4affcbc"]
+}, Open  ]],
+
+Cell[TextData[{
+ "Once again, mixing coordinate systems is fine. And as you can see, the four \
+unit vectors ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    RowBox[{
+     OverscriptBox["x", "^"], ",", " ", 
+     OverscriptBox["y", "^"], ",", " ", 
+     OverscriptBox["r", "^"], ",", " ", 
+     OverscriptBox["\[Phi]", "^"]}], ")"}], TraditionalForm]],ExpressionUUID->
+  "730e8fd9-de70-4906-8c47-5bced99ead0e"],
+ " are built in just like x, y, r, and \[Phi]. \n\nYou can do all the same \
+manipulations as before using ToCartesian, ToPolar, and Simplify"
+}], "Text",
+ CellChangeTimes->{{3.7914249276895995`*^9, 3.791425081272279*^9}, {
+  3.7914252752478733`*^9, 3.7914253397362747`*^9}, {3.791425845328622*^9, 
+  3.791425944362348*^9}, {3.7914283356779037`*^9, 3.7914284033158774`*^9}, {
+  3.791766884062164*^9, 
+  3.791766895717149*^9}},ExpressionUUID->"8bb4dc41-0287-4ade-8f46-\
+2b7928914529"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Sin", "[", "\[Phi]", "]"}], " ", 
+   OverscriptBox["x", "^"]}], "+", 
+  RowBox[{"4", " ", 
+   OverscriptBox["y", "^"]}], "-", 
+  RowBox[{"\[Phi]", " ", 
+   OverscriptBox["r", "^"]}], "-", 
+  RowBox[{
+   FractionBox["1", 
+    SuperscriptBox["r", "2"]], 
+   OverscriptBox["\[Phi]", "^"]}]}]], "Input",
+ CellChangeTimes->{{3.791428404690712*^9, 3.791428404737554*^9}, {
+  3.7917669985548735`*^9, 3.7917669986798363`*^9}, {3.7917708103881826`*^9, 
+  3.7917708482192445`*^9}, {3.791770892596357*^9, 3.791771024964456*^9}, {
+  3.791771216731628*^9, 
+  3.7917712200906177`*^9}},ExpressionUUID->"f3b57ce7-36b5-478a-a153-\
+75ec562821cd"],
+
+Cell["\<\
+Note that now it is even easier to change the value of your expression with \
+poor highlighting and use of these functions. As long as you are careful \
+though, you should be fine. And it goes without saying that you shouldn\
+\[CloseCurlyQuote]t try to multiply two vectors together. This isn\
+\[CloseCurlyQuote]t that kind of library.\
+\>", "Text",
+ CellChangeTimes->{{3.7914284073972197`*^9, 3.791428501403901*^9}, {
+  3.7914286396008587`*^9, 3.791428706746089*^9}, {3.7914288076612587`*^9, 
+  3.7914288233629313`*^9}, {3.791429196449502*^9, 3.791429196746322*^9}, {
+  3.7914292963355293`*^9, 3.7914293277190547`*^9}, {3.7917670112962646`*^9, 
+  3.7917670592677584`*^9}, {3.7917671665656147`*^9, 3.791767184515647*^9}, {
+  3.7917710503868046`*^9, 
+  3.791771078204487*^9}},ExpressionUUID->"c1a47575-32a3-4507-8e59-\
+acc0970cd28c"],
+
+Cell[BoxData[
+ RowBox[{
+  OverscriptBox["r", "^"], " ", 
+  OverscriptBox["x", "^"]}]], "Input",
+ CellChangeTimes->{{3.7917670207523527`*^9, 3.7917670207680674`*^9}, {
+  3.791767187265311*^9, 3.7917671915929933`*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"41c4c3e4-ccc3-4d4c-96e0-900dbe225d85"],
+
+Cell["\<\
+Be careful using VatAt. It is best practice to manipulate the unit vectors to \
+your preferred form before applying ValAt. Applying ValAt then converting to \
+a new coordinate system will introduce some symbols (x, y, r, and \[Phi]) \
+back into the expression\
+\>", "Text",
+ CellChangeTimes->{{3.7914284073972197`*^9, 3.791428501403901*^9}, {
+  3.7914286396008587`*^9, 3.791428706746089*^9}, {3.7914288076612587`*^9, 
+  3.7914288233629313`*^9}, {3.791429196449502*^9, 3.791429196746322*^9}, {
+  3.7914292963355293`*^9, 3.7914293277190547`*^9}, {3.7917670112962646`*^9, 
+  3.791767016386961*^9}},ExpressionUUID->"fa9b7868-12d2-4617-a97b-\
+606aab058683"],
+
+Cell[BoxData[
+ RowBox[{"b", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"y", " ", 
+     OverscriptBox["x", "^"]}], "-", 
+    RowBox[{"3", "x", " ", 
+     OverscriptBox["y", "^"]}], "+", 
+    RowBox[{"8", " ", 
+     OverscriptBox["r", "^"]}]}], "/.", 
+   RowBox[{"ValAt", "[", 
+    RowBox[{
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "2"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.791428437917856*^9, 3.7914284380429*^9}, {
+  3.791768453157075*^9, 3.7917685290212774`*^9}},
+ CellLabel->"",ExpressionUUID->"a08200e4-0f9c-4176-bbf5-5f4662911e32"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ToPolar", "[", "b", "]"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "This", " ", "output", " ", "is", " ", "correct", " ", "ONLY", " ", "if", 
+     " ", "reevaluated", " ", "using"}], " ", "/.", 
+    RowBox[{"ValAt", "[", 
+     RowBox[{
+      RowBox[{"-", "1"}], ",", 
+      RowBox[{"-", "2"}]}], "]"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.7917685714181547`*^9, 
+  3.7917686495865774`*^9}},ExpressionUUID->"8ecdd6fd-59a6-431d-98cc-\
+8aded034f54a"],
+
+Cell[TextData[{
+ "Making the manipulation functions work with numerical vectors is a future \
+goal. \n\nA goal of this package is to match mathematical input as much as \
+possible. Mathematica can make this difficult, here is some advice for \
+working around common issues. \n\n To use symbols with an OverVector ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["\[Placeholder]", "\[RightVector]"], TraditionalForm]],
+  ExpressionUUID->"c4cfda34-2e77-4c49-b384-cf22a4090458"],
+ " (typed using Ctrl + 7 Esc vec Esc) or an OverHat ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["\[Placeholder]", "^"], TraditionalForm]],ExpressionUUID->
+  "7e603cef-bd36-4a29-b882-fbaaa061dea9"],
+ " (typed using Ctrl + 7 Shift + 6), make assignments using ^= (UpSet):"
+}], "Text",
+ CellChangeTimes->{{3.7914249276895995`*^9, 3.791425081272279*^9}, {
+   3.7914252752478733`*^9, 3.7914253397362747`*^9}, {3.791425845328622*^9, 
+   3.791425944362348*^9}, {3.7914283356779037`*^9, 3.791428345320324*^9}, {
+   3.7914287609115095`*^9, 3.791428802273777*^9}, {3.7914299607960925`*^9, 
+   3.7914300101279416`*^9}, 3.7917672760539837`*^9, {3.7917686683017397`*^9, 
+   3.7917686690828705`*^9}},ExpressionUUID->"3665eca9-ced2-4211-951f-\
+690d98373aa9"],
+
+Cell[BoxData[
+ RowBox[{
+  OverscriptBox["c", "\[RightVector]"], "^=", 
+  RowBox[{
+   RowBox[{"5", 
+    OverscriptBox["x", "^"]}], "+", 
+   RowBox[{"3", 
+    OverscriptBox["y", "^"]}], "-", 
+   RowBox[{"\[Phi]", " ", 
+    OverscriptBox["r", "^"]}]}]}]], "Input",
+ CellChangeTimes->{{3.7914250901928124`*^9, 3.791425106928414*^9}, {
+  3.791767282295823*^9, 3.791767311103713*^9}, {3.7917687850339904`*^9, 
+  3.791768793579898*^9}},ExpressionUUID->"5a00243d-762c-4ed3-90bc-\
+5811f5c2b573"],
+
+Cell["\<\
+Though this technically isn\[CloseCurlyQuote]t necessary, a normal = (Set) \
+will work in many cases, it is advised to use UpSet because of details \
+regarding how Mathematica stores definitions.
+
+Secondly, some symbols are reserved by the language, E (what we typically use \
+as the electric field) being one of them. The double struct letters, entered \
+as Esc ds(your letter) Esc, are often a suitable replacement. For example \
+(using Esc dsE Esc): \
+\>", "Text",
+ CellChangeTimes->{{3.79142514816324*^9, 3.791425267512592*^9}, {
+  3.7914253710428095`*^9, 3.7914255124106326`*^9}, {3.791767915816899*^9, 
+  3.791767918754081*^9}},ExpressionUUID->"858311bd-8dba-412a-b474-\
+84915e6d5614"],
+
+Cell[BoxData[
+ RowBox[{
+  OverscriptBox["\[DoubleStruckCapitalE]", "\[RightVector]"], "^=", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{"4", "\[Pi]", " ", 
+     SubscriptBox["\[Epsilon]", "0"]}]], 
+   FractionBox["q", 
+    SuperscriptBox["r", "2"]], 
+   OverscriptBox["r", "^"]}]}]], "Input",
+ CellChangeTimes->{{3.7914255184991856`*^9, 3.791425529399269*^9}, {
+  3.7917688440815153`*^9, 3.7917688807891064`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"c3fec08a-7c12-4232-8cc2-45e341c54fb0"],
+
+Cell[TextData[{
+ "I\[CloseCurlyQuote]ll admit, this input is cumbersome ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    OverscriptBox["\[DoubleStruckCapitalE]", "\[RightVector]"]}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "0de0f84f-47f1-4522-93f7-6c1a85e20dea"],
+ " takes 11 keystrokes). If you have particular letters or symbols you enter \
+often, I advise adding a hotkey to your KeyEventTranslations.tr (for new \
+hotkeys) file or your MenuSetup.tr (for overrding built in hotkeys) file. \
+This is common for power users in the Mathematica community. This post shows \
+how to do it: \n\nIf you want to write expressions using the magnitude and \
+unit vector of a vector, you will need to define these separately. Though \
+they can all be used in an expression at the same time."
+}], "Text",
+ CellChangeTimes->{{3.7914255538576374`*^9, 3.791425657280379*^9}, {
+  3.791426000736287*^9, 3.791426045167376*^9}, {3.7914288680397196`*^9, 
+  3.791428871729827*^9}, {3.7914295925059223`*^9, 3.7914295932715015`*^9}, {
+  3.7914297084780283`*^9, 3.791429720904443*^9}, {3.7914299321834173`*^9, 
+  3.791429953674698*^9}, {3.7914300205773373`*^9, 3.791430027185828*^9}, {
+  3.7914301020035696`*^9, 3.7914301040815935`*^9}, {3.7914301487761507`*^9, 
+  3.791430162944289*^9}, {3.791766419929616*^9, 3.791766430787846*^9}, {
+  3.791768700143117*^9, 
+  3.7917687490628996`*^9}},ExpressionUUID->"b35a92d1-ad8d-4b00-9329-\
+a41fa790b963"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[DoubleStruckCapitalE]", "=", 
+   RowBox[{
+    FractionBox["1", 
+     RowBox[{"4", "\[Pi]", " ", 
+      SubscriptBox["\[Epsilon]", "0"]}]], 
+    FractionBox["q", 
+     SuperscriptBox["r", "2"]]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   OverscriptBox["\[DoubleStruckCapitalE]", "^"], "^=", 
+   OverscriptBox["r", "^"]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7914300306097183`*^9, 3.791430030765946*^9}, {
+  3.7914301060187654`*^9, 3.791430131861926*^9}, {3.79143019008281*^9, 
+  3.791430245180791*^9}, {3.791768929014662*^9, 3.7917689415133057`*^9}, {
+  3.791768998344692*^9, 3.7917690046096687`*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"0cbf2f41-f93c-41ba-8d22-3ac558ed5346"],
+
+Cell[BoxData[
+ RowBox[{
+  OverscriptBox["\[DoubleStruckCapitalE]", "\[RightVector]"], "===", 
+  RowBox[{"\[DoubleStruckCapitalE]", " ", 
+   OverscriptBox["\[DoubleStruckCapitalE]", "^"], " "}]}]], "Input",
+ CellChangeTimes->{{3.791768958107049*^9, 3.79176897573776*^9}, {
+  3.791769022847582*^9, 
+  3.7917690616751795`*^9}},ExpressionUUID->"657cd441-7332-46d3-a043-\
+e6f57d3678fe"],
+
+Cell["\<\
+Happily though, later versions of the library have this automated.
+
+The library can also do dot products, these are entered with \[CenterDot] \
+(CenterDot, typed as Esc . Esc). This is different from Mathematica\
+\[CloseCurlyQuote]s built in . (Dot) which is just a period. \
+\>", "Text",
+ CellChangeTimes->{{3.7914260580942698`*^9, 3.7914262193713293`*^9}, {
+   3.791430032412529*^9, 3.791430071786152*^9}, 
+   3.791430167850135*^9},ExpressionUUID->"cdde2a4d-442d-4441-8362-\
+f09c0e6e1ba4"],
+
+Cell[BoxData[
+ RowBox[{"5", 
+  RowBox[{
+   OverscriptBox["x", "^"], "\[CenterDot]", "3"}], 
+  OverscriptBox["r", "^"]}]], "Input",
+ CellChangeTimes->{{3.791426222527244*^9, 3.791426228597702*^9}, {
+  3.7917692700050087`*^9, 3.791769289402093*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"f0149604-3643-45ba-8137-a3a5ea6bcb41"],
+
+Cell["\<\
+When working with vectors in this package, use \[CenterDot] (CenterDot) when \
+working with native Mathematica vectors (which are just lists) use . (Dot).
+
+To interop with Mathematica\[CloseCurlyQuote]s vector (list) utilities, use \
+the ToCartesianList, FromCartesianList, ToPolarList, and FromPolarList (these \
+aren\[CloseCurlyQuote]t really working yet, we\[CloseCurlyQuote]re working on \
+it): \
+\>", "Text",
+ CellChangeTimes->{{3.7914262332662506`*^9, 3.791426432563396*^9}, {
+  3.7917711289981265`*^9, 
+  3.791771155640107*^9}},ExpressionUUID->"63994bdf-1958-4bfc-863a-\
+755705b05f62"],
+
+Cell[BoxData[
+ RowBox[{"ToCartesianList", "[", 
+  RowBox[{
+   RowBox[{"5", 
+    OverscriptBox["x", "^"]}], "-", 
+   OverscriptBox["y", "^"]}], "]"}]], "Input",
+ CellChangeTimes->{{3.7914264397101717`*^9, 3.791426506255599*^9}, {
+  3.7917732586264405`*^9, 3.7917732670451727`*^9}, {3.7917735035406294`*^9, 
+  3.791773512831779*^9}},ExpressionUUID->"70942801-7651-45fc-a80f-\
+a20ebe2aad57"],
+
+Cell[BoxData[
+ RowBox[{"FromPolarList", "[", 
+  RowBox[{"{", 
+   RowBox[{"\[Phi]", ",", 
+    RowBox[{
+     RowBox[{"-", "3"}], "r"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7917735163411713`*^9, 3.791773549742736*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"6ff1e245-5e80-49de-9f50-af1bb10d118e"],
+
+Cell["\<\
+To use the built in vector calculus capabilities, here are some helper \
+functions. Since these aren\[CloseCurlyQuote]t essential for the package,  I \
+have decided to only include them here. I encourage the user to program \
+alternative behavior should they desire.\
+\>", "Text",
+ CellChangeTimes->{{3.7914265485589223`*^9, 3.7914266290369835`*^9}, {
+   3.7914266691666985`*^9, 3.7914267220948477`*^9}, {3.791426780348868*^9, 
+   3.7914269829551706`*^9}, 3.791428303507681*^9, {3.7917724464562254`*^9, 
+   3.791772534207637*^9}, {3.791773177587693*^9, 
+   3.7917732096666746`*^9}},ExpressionUUID->"834bcb1d-f0c2-4f99-a2a2-\
+2922a031d5a9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"gradCar", "[", "scalar_", "]"}], ":=", 
+   RowBox[{"FromCartesianList", "[", 
+    RowBox[{"Grad", "[", 
+     RowBox[{
+      RowBox[{"ToCartesian", "[", "scalar", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "y"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"divCar", "[", "v_Vector2D", "]"}], ":=", 
+   RowBox[{"FromCartesianList", "[", 
+    RowBox[{"Div", "[", 
+     RowBox[{
+      RowBox[{"ToCartesianList", "[", "v", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "y"}], "}"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"curlCar", "[", "v_Vector2D", "]"}], ":=", 
+    RowBox[{"FromCartesianList", "[", 
+     RowBox[{"Curl", "[", 
+      RowBox[{
+       RowBox[{"ToCartesianList", "[", "v", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "y"}], "}"}]}], "]"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"gradPol", "[", "scalar_", "]"}], ":=", 
+   RowBox[{"FromPolarList", "[", 
+    RowBox[{"Grad", "[", 
+     RowBox[{
+      RowBox[{"ToPolar", "[", "scalar", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"r", ",", "\[Phi]"}], "}"}], ",", "\"\<Polar\>\""}], "]"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"divPol", "[", "v_Vector2D", "]"}], ":=", 
+   RowBox[{"FromPolarList", "[", 
+    RowBox[{"Div", "[", 
+     RowBox[{
+      RowBox[{"ToPolarList", "[", "v", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"r", ",", "\[Phi]"}], "}"}], ",", "\"\<Polar\>\""}], "]"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"curlPol", "[", "v_Vector2D", "]"}], ":=", 
+   RowBox[{"ToPolarList", "[", 
+    RowBox[{"Curl", "[", 
+     RowBox[{
+      RowBox[{"ToPolarList", "[", "v", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"r", ",", "\[Phi]"}], "}"}], ",", "\"\<Polar\>\""}], "]"}], 
+    "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.791426985501732*^9, 3.7914270364548836`*^9}, {
+   3.791427129312005*^9, 3.791427204589636*^9}, {3.7914275430686607`*^9, 
+   3.791427554982706*^9}, 3.7914277642999372`*^9, {3.791427825190523*^9, 
+   3.7914279412250123`*^9}, {3.7914281716128817`*^9, 3.791428266363593*^9}, {
+   3.7917732998468175`*^9, 3.791773335280633*^9}, {3.791773418221856*^9, 
+   3.79177344056322*^9}, {3.7917735753864317`*^9, 
+   3.7917735832689257`*^9}},ExpressionUUID->"605e25bc-d777-4d24-8c10-\
+14fcaa94756c"],
+
+Cell["\<\
+Right now there is no \[OpenCurlyDoubleQuote]nice\[CloseCurlyDoubleQuote] \
+mathematical way to type in these functions with \[Del] (entered with Esc del \
+Esc) although this is on the list of future features. Probably in a special \
+component specifically for such operations (these functions also won\
+\[CloseCurlyQuote]t work because of the aforementioned bug with the To*List \
+and From*List functions, we\[CloseCurlyQuote]re working on it).
+
+Also, you may have noticed some weird display or syntax or highlighting \
+behaviors when you were playing around with the transformation functions. \
+This is an unwanted behavior which we consider a bug and are currently \
+working on fixing. It is a result of the Format function using the \
+DisplayForm function. This actually produces the entire output in its own \
+little invisible and thin box. You can notice it if you evaluate ToCartesian \
+and ToPolar inline within some expressions, then use the arrow keys to \
+traverse the expression. You will notice the cursor change size and will see \
+it take more key hits to traverse the boundary of the expressions you \
+transformed. We did this below, check the boundary between the first Sin and \
+the + to its left, you will notice it takes more keystrokes than usual\
+\>", "Text",
+ CellChangeTimes->{{3.791427286149088*^9, 3.791427312869784*^9}, {
+  3.7914273519004326`*^9, 3.7914274475264406`*^9}, {3.791427499351907*^9, 
+  3.7914275324741917`*^9}, {3.7914277726903353`*^9, 3.7914278207876987`*^9}, {
+  3.7914282840674806`*^9, 3.7914282864464483`*^9}, {3.7914302812091904`*^9, 
+  3.7914303394759874`*^9}, {3.7917663600619135`*^9, 3.791766387206074*^9}, {
+  3.7917712429719286`*^9, 3.7917715751096177`*^9}, {3.791771654095414*^9, 
+  3.791771701671707*^9}, {3.7917719831572585`*^9, 
+  3.791772015240325*^9}},ExpressionUUID->"74d80a36-e7ed-4c18-8f4e-\
+196e08b5cebc"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[
+   RowBox[{
+    RowBox[{
+     FractionBox["x", 
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox["x", "2"], "+", 
+        SuperscriptBox["y", "2"]}]]], 
+     OverscriptBox["x", "^"]}], "+", 
+    TagBox[
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"Sin", "[", "\[Phi]", "]"}], "2"], 
+      OverscriptBox["r", "^"], "+", 
+      RowBox[{
+       RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+       RowBox[{"Sin", "[", "\[Phi]", "]"}]}], 
+      OverscriptBox["\[Phi]", "^"]}],
+     DisplayForm]}],
+   DisplayForm],
+  CheckAbort[#, 
+   Defer[#]]& ]], "Input",
+ CellChangeTimes->{{3.791771581140213*^9, 3.791771597958766*^9}, {
+  3.7917716405698705`*^9, 
+  3.7917716609384565`*^9}},ExpressionUUID->"3561ab44-3fd7-4e61-a1d7-\
+4113f7e83f02"],
+
+Cell["\<\
+We think this may cause errors in the evaluation of expressions, but we aren\
+\[CloseCurlyQuote]t sure. At the very least, this makes highlighting \
+different parts of the expression difficult. As said, we are currently \
+working on a solution.
+
+That about covers it. If you have any questions, comments, or advice then \
+send me an email or ask/say it through the Github page. \
+\>", "Text",
+ CellChangeTimes->{{3.791427286149088*^9, 3.791427312869784*^9}, {
+  3.7914273519004326`*^9, 3.7914274475264406`*^9}, {3.791427499351907*^9, 
+  3.7914275324741917`*^9}, {3.7914277726903353`*^9, 3.7914278207876987`*^9}, {
+  3.7914282840674806`*^9, 3.7914282864464483`*^9}, {3.7914302812091904`*^9, 
+  3.7914303394759874`*^9}, {3.7917663600619135`*^9, 3.791766387206074*^9}, {
+  3.7917712429719286`*^9, 3.791771577499981*^9}, {3.7917717058119693`*^9, 
+  3.7917717726639004`*^9}},ExpressionUUID->"b05c5953-d902-41a6-9785-\
+5fec8439adec"]
+},
+WindowSize->{759, 541},
+WindowMargins->{{Automatic, 295}, {Automatic, 64}},
+Magnification:>1.1 Inherited,
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 179, 3, 39, "Text",ExpressionUUID->"2bf6b46e-c00d-4378-b480-4c5cd593e02a"],
+Cell[740, 25, 258, 4, 32, "Input",ExpressionUUID->"2bc449ce-bb59-40fc-980d-515882b278a3"],
+Cell[1001, 31, 1605, 36, 191, "Text",ExpressionUUID->"dc9114b1-c882-42d1-bb3e-f50ef3fbbeea",
+ InitializationCell->True],
+Cell[2609, 69, 555, 17, 64, "Input",ExpressionUUID->"5eba6da9-6ca1-4a44-9358-d1534a8170a3"],
+Cell[3167, 88, 1292, 23, 115, "Text",ExpressionUUID->"173951d8-70f2-493e-b008-c29fb6fa08b4"],
+Cell[4462, 113, 1646, 38, 117, "Text",ExpressionUUID->"35e53f93-926f-4a99-8e02-40f9caebb937"],
+Cell[6111, 153, 508, 14, 50, "Input",ExpressionUUID->"60810e19-b8b9-4b89-ad92-4eeffcd9fc0a"],
+Cell[6622, 169, 624, 17, 50, "Input",ExpressionUUID->"22ba88bc-a4d9-4704-9f48-acfc204832f1"],
+Cell[7249, 188, 594, 10, 65, "Text",ExpressionUUID->"f88c3b10-b8a4-43ae-aeb9-79e62a1fba27"],
+Cell[7846, 200, 678, 18, 50, "Input",ExpressionUUID->"2aa90279-23dc-4031-aa50-fd726c137e75"],
+Cell[8527, 220, 601, 17, 50, "Input",ExpressionUUID->"11602737-e8a9-4b9d-b1e7-6dc9bcae380f"],
+Cell[9131, 239, 647, 11, 65, "Text",ExpressionUUID->"71c1f4aa-9f25-4f43-976d-1dbacc15abf9"],
+Cell[9781, 252, 288, 8, 38, "Input",ExpressionUUID->"3ff8732e-7222-43e4-825c-3e0d8c32065d"],
+Cell[10072, 262, 1606, 35, 226, "Text",ExpressionUUID->"3879218c-05fd-4ca1-acd9-748f715bfdbd"],
+Cell[11681, 299, 490, 12, 59, "Input",ExpressionUUID->"95daadda-352e-4e86-803b-abcbfd684e08"],
+Cell[12174, 313, 1397, 34, 115, "Text",ExpressionUUID->"cc112caf-6da8-4607-b026-7de880bd8f26",
+ InitializationCell->True],
+Cell[13574, 349, 250, 6, 32, "Input",ExpressionUUID->"567bba3f-0241-48f9-9a5d-ac321438e97e"],
+Cell[13827, 357, 453, 8, 90, "Text",ExpressionUUID->"29498afa-5bb6-4def-9b21-a288d9f0b120"],
+Cell[14283, 367, 738, 15, 90, "Text",ExpressionUUID->"b42f464c-bd92-4ebc-9eec-82e7d5bcdb65"],
+Cell[15024, 384, 1326, 24, 217, "Text",ExpressionUUID->"5f95a34c-071a-405a-a974-508b7fe040f5"],
+Cell[16353, 410, 708, 16, 48, "Input",ExpressionUUID->"8a98d794-12fb-4e40-8ba4-c7edd9abb22b"],
+Cell[17064, 428, 568, 11, 141, "Text",ExpressionUUID->"0e5f9500-6573-42dd-91c0-8cd7c31a0fa7"],
+Cell[CellGroupData[{
+Cell[17657, 443, 606, 16, 37, "Input",ExpressionUUID->"80f66343-903c-4fd8-8f6f-33ae8dd88afe"],
+Cell[18266, 461, 474, 12, 41, "Output",ExpressionUUID->"f6c22c6c-5c69-4380-a634-857ab4affcbc"]
+}, Open  ]],
+Cell[18755, 476, 896, 20, 123, "Text",ExpressionUUID->"8bb4dc41-0287-4ade-8f46-2b7928914529"],
+Cell[19654, 498, 675, 18, 51, "Input",ExpressionUUID->"f3b57ce7-36b5-478a-a153-75ec562821cd"],
+Cell[20332, 518, 842, 14, 115, "Text",ExpressionUUID->"c1a47575-32a3-4507-8e59-acc0970cd28c"],
+Cell[21177, 534, 294, 6, 34, "Input",ExpressionUUID->"41c4c3e4-ccc3-4d4c-96e0-900dbe225d85"],
+Cell[21474, 542, 662, 11, 90, "Text",ExpressionUUID->"fa9b7868-12d2-4617-a97b-606aab058683"],
+Cell[22139, 555, 551, 16, 34, "Input",ExpressionUUID->"a08200e4-0f9c-4176-bbf5-5f4662911e32"],
+Cell[22693, 573, 501, 14, 55, "Input",ExpressionUUID->"8ecdd6fd-59a6-431d-98cc-8aded034f54a"],
+Cell[23197, 589, 1219, 22, 191, "Text",ExpressionUUID->"3665eca9-ced2-4211-951f-690d98373aa9"],
+Cell[24419, 613, 486, 13, 35, "Input",ExpressionUUID->"5a00243d-762c-4ed3-90bc-5811f5c2b573"],
+Cell[24908, 628, 701, 13, 166, "Text",ExpressionUUID->"858311bd-8dba-412a-b474-84915e6d5614"],
+Cell[25612, 643, 492, 12, 53, "Input",ExpressionUUID->"c3fec08a-7c12-4232-8cc2-45e341c54fb0"],
+Cell[26107, 657, 1458, 26, 219, "Text",ExpressionUUID->"b35a92d1-ad8d-4b00-9329-a41fa790b963"],
+Cell[27568, 685, 736, 17, 81, "Input",ExpressionUUID->"0cbf2f41-f93c-41ba-8d22-3ac558ed5346"],
+Cell[28307, 704, 381, 8, 37, "Input",ExpressionUUID->"657cd441-7332-46d3-a043-e6f57d3678fe"],
+Cell[28691, 714, 501, 10, 115, "Text",ExpressionUUID->"cdde2a4d-442d-4441-8362-f09c0e6e1ba4"],
+Cell[29195, 726, 325, 7, 34, "Input",ExpressionUUID->"f0149604-3643-45ba-8137-a3a5ea6bcb41"],
+Cell[29523, 735, 602, 12, 166, "Text",ExpressionUUID->"63994bdf-1958-4bfc-863a-755705b05f62"],
+Cell[30128, 749, 388, 9, 38, "Input",ExpressionUUID->"70942801-7651-45fc-a80f-a20ebe2aad57"],
+Cell[30519, 760, 306, 7, 32, "Input",ExpressionUUID->"6ff1e245-5e80-49de-9f50-af1bb10d118e"],
+Cell[30828, 769, 649, 11, 90, "Text",ExpressionUUID->"834bcb1d-f0c2-4f99-a2a2-2922a031d5a9"],
+Cell[31480, 782, 2530, 69, 165, "Input",ExpressionUUID->"605e25bc-d777-4d24-8c10-14fcaa94756c"],
+Cell[34013, 853, 1875, 28, 368, "Text",ExpressionUUID->"74d80a36-e7ed-4c18-8f4e-196e08b5cebc"],
+Cell[35891, 883, 775, 27, 68, "Input",ExpressionUUID->"3561ab44-3fd7-4e61-a1d7-4113f7e83f02"],
+Cell[36669, 912, 937, 16, 166, "Text",ExpressionUUID->"b05c5953-d902-41a6-9785-5fec8439adec"]
+}
+]
+*)
+
