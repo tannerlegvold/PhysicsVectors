@@ -1,5 +1,6 @@
 (* ::Package:: *)
 
+(*This is another test*)
 BeginPackage["PhysicsVectors2Dv4`"];
 
 x::usage="This Symbol is an independant variable (or coordinate) representing the horizontal distance from the origin (like in Cartesian coordinates) it is used in vector field definition and calculations. It should NEVER be redefined and must be left alone in that respect otherwise the package will break.";
