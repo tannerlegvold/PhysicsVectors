@@ -9,9 +9,9 @@ This library seeks to streamline the process of working with vectors (at least i
 The OldVersions folder contains the older copies of the library and is there mostly for historical purposes. Most of those implementations are not advised for standard use.
 
 ## Use
-To use the library, simply download the files ```PhysicsVectors2Dv4.m``` and ```2-d Vector Library Palette``` and install them however you wish. One way is: open Mathematica, click on File->Install, and use the install wizard to install the package file and the palette file from wherever you downloaded them to. 
+To use the library, simply download the files ```PhysicsVectors2Dv4.wl``` and ```2-d Vector Library Palette``` and install them however you wish. One way is: open Mathematica, click on File->Install, and use the install wizard to install the package file and the palette file from wherever you downloaded them to. 
 
-There will be an example notebook uploaded soon to show how to use the library. But to get started simply evaluate (after having installed the ```PhysicsVectors2Dv4.m``` file of course) the code ```<<PhysicsVectors2Dv4` ``` and the package should load properly. Some side notes: if you are in a session where you plan to use and load the package, don't evaluate anything including symbols that are used in the package without having first loaded the package. This will create context conflicts that are annoying to resolve, if you do this, the easiest way to fix it is simply restart the kernel. The commonly used symbols that the package requires are: x, y, r, and \[phi]. Note that the complete list of symbols can be found in the package file itself or by examining the package's context, which is ```PhysicsVectors2Dv4` ```.
+There is an example notebook called ```Example usage of PhysicsVectors2Dv4.nb```. But to get started simply evaluate (after having installed the ```PhysicsVectors2Dv4.wl``` file of course) the code ```<<PhysicsVectors2Dv4` ``` and the package should load properly.
 
 ## Future Goals
 There are also versions currently in development, specifically version 5 and of course a 3d version. Currently the goals to be implemented with version 5 are: 
