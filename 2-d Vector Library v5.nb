@@ -1,0 +1,1294 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     65673,       1286]
+NotebookOptionsPosition[     65181,       1271]
+NotebookOutlinePosition[     65522,       1286]
+CellTagsIndexPosition[     65479,       1283]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Ok, this is the vector library v5, the goal here is that though v4 is \
+pretty much complete and good to go, I have recently had a few more ideas \
+that sort of command the creation of a new version, so here we are. This is \
+obviously experimental, nothing here should screw anything up with the main \
+code but its best to be safe and sorry nonetheless.\n\nOk, ideas for this new \
+version:\n\nAlso, I should add a palette button for \[OpenCurlyDoubleQuote]/. \
+ValAt[]\[CloseCurlyDoubleQuote]. Just for the sake of it and to make it \
+obvious that it is there to the user. \n\nAlso, on the topic of Vectors and \
+VectorFields. And with the problem of VatAt. Currently using function \
+conversions works poorly with a numeric vector/expression which is wh. If you \
+think about it, the perfect solution for this problem would be to have those \
+two data types: Vectors and VectorFields, and then to have the rules produced \
+by ValAt, actually convert the head of some expression with head VectorField, \
+to Vector. And then be done with it. An important note is that this should \
+only be done if the values input to ValAt are all numeric (or acutally I \
+think not invovling the coordinate system, that is to say: constant with \
+respect to x y r \[Phi]), otherwise you just get another VectorField, which \
+should definitly have head VectorField (in my opinion). And also this gets \
+into the question of the boundaries and domains of vector fields. Perhaps \
+there should be another type VectorFieldAdvanced that adds the capabilites to \
+have specified doemains, but perhaps this can be accomplished with piecewise \
+defined functions. In fact, if I can study the peice wise defined \
+documentation and if it has good enough capabilities, such as definitions on \
+specified doemains, and not just simple stuff like x>1 and y<-8, then maybe \
+we can just use that instead but Unprotect and re Protect it to add our own \
+Vector based functionallity to it. Anyways, that all for now!Goodby!\n\nIn \
+this one, when you save a function in a variable, say, some field in ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "b7113b13-f0b4-4a86-ac40-012b5ed3f98f"],
+ ", the symbol E is now reserved and nothing else can be done with it. By \
+this I mean, previously the definitions for vector fields were saved as \
+upvalues for the symbol, E in this case, but the upvalues for the symbol were \
+independent, ie I could define ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "5902dcbc-7636-4156-b0ac-3dd27872a339"],
+ " to something and then define ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "^"], TraditionalForm]],ExpressionUUID->
+  "5083039a-2f19-4a04-8188-916ccfca9eb4"],
+ " to something entirely different and there would be no problem. Obviously \
+this is not great behavior, in this version, when you define ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "5d8952db-f6dc-401b-bfca-d4c92ea93fd0"],
+ " it will automatically define ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "^"], TraditionalForm]],ExpressionUUID->
+  "2338fe95-551a-4a6b-a282-cb55c63a310a"],
+ " and E so that they are the corresponding direction and magnitude for the ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "7a5ac1f5-d7a1-4392-a580-ec1f541ff857"],
+ ". We will need to be careful with defining what E is, and hope that \
+Mathematica will parse an expression like ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "2de8cb1e-5413-48a2-bae2-65b605677063"],
+ " or ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "^"], TraditionalForm]],ExpressionUUID->
+  "a0ccdce7-f33c-4290-bb1a-d27afa10e1f1"],
+ " and apply the upvalues for E (they will be for OverVector[E] or \
+OverHat[E]) before it applies the ownvalue for E (which will be set to \
+something at that point). If not then ugh, that will be difficult to be \
+solved. I will need to come up with a way to define them as well by giving a \
+unit vector and a magnitude. That is if I give ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "^"], TraditionalForm]],ExpressionUUID->
+  "930dedf2-f21e-41bf-8e0d-2d80c9262aa9"],
+ " and E, then it should automatically know, and I should automatically be \
+able to have it output ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "58ce0b8d-33c1-4a91-860e-7af7947d5331"],
+ ".\n\nSo I will also need to add functions for Magnitude and UnitVector of a \
+vector, the former will output a scalar and the latter will output a Vector. \
+\n\nI also want there to be functions for the inverse curl, the inverse \
+divergence, and the inverse gradient of these vector and scalar fields. I don\
+\[CloseCurlyQuote]t want it to autocompute the inverse gradient of say the ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "dd73be01-df44-4065-9ffe-a8778bf55e89"],
+ " field. This should only be done if the user asks for it, unlike the \
+calculation of a unit vector and a magnitude for these vectors.\n\nI also \
+want to start programming in the V and ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "c820e7d4-33d0-4c92-9f4f-d78e10776d00"],
+ " field of basic charge distributions and the ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["B", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "840218d5-333f-40c7-896a-a823199e2a64"],
+ " (and I suppose also ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["A", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "0ea34ae1-c274-4194-b318-c938339de20a"],
+ ") fields for basic current distributions. Like point charges, infinite \
+lines of charge and current, infinite sheets of charges and current, and the \
+fields for electric point dipoles and magnetic point dipoles.\n\nI also want \
+to work on simply a basic solver. Someone can define a simple charge or \
+current distribution using the geometric stuff in Wolfram, and the library \
+will try to apply Coulomb\[CloseCurlyQuote]s law and the Biot-Savart law, \
+Wolfram may not be able to do those integrals, but I should at least build \
+something that would take all the notation out and reduce it to something \
+Mathematica at least has a chance with. This will be a fun one. And remember, \
+complicated charge distributions can always be split up into smaller \
+components if it reduces the complexity of the integrals.\n\nI need to work \
+on those visualization functions as well. Also I want some sort of feature to \
+produce visual animations of the electric and magnetic fields if I have given \
+them time varying definitions. I know I could do that myself in some cases, \
+like without it programmed into the library at all. But instead I think I \
+want there to be some feature like that in there in some way. But obviously I \
+have yet to work out the details of how it should work out. If I do this, I \
+will need to add additional functionality to the ValAt function, so that it \
+can support time parameters as well.\n\nThis would be harder. Add in a way to \
+compute with two coordinate systems at once. Like if I have one reference \
+frame and its using x y z r \[Theta] \[Phi] s and another reference frame, \
+then there is no way to do stuff with that other reference frame with out \
+constantly redefining stuff and having it get very messy. I should make it so \
+that you can define new reference frames (the math would be all the same, you \
+would just need to be using different variables) with a new set of variables \
+such as x\[CloseCurlyQuote] y\[CloseCurlyQuote] z\[CloseCurlyQuote] r\
+\[CloseCurlyQuote] \[Theta]\[CloseCurlyQuote] \[Phi]\[CloseCurlyQuote] s\
+\[CloseCurlyQuote]. You would need a way to define the relation of one frame \
+of reference to another. You would define these relations using \
+transformations. Typically it would be a matrix, but occasionally there would \
+need to be substitutions (for things like translations, i.e. change of \
+origins), I will need to think of the best way to implement the input of \
+these transformations (the substitution part makes using just a matrix hard), \
+hopefully I can come up with something that isn\[CloseCurlyQuote]t too \
+awkward. How should I handle the question of representation. As in, if \
+someone types in the definition of ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["E", "\[RightVector]"], TraditionalForm]],ExpressionUUID->
+  "e40fa2b7-8618-4fb0-85cf-beff5bae2357"],
+ " in one frame, how should they tell the library that they want to see the \
+definition in another frame. This begs the further question, how should \
+calculations be done if they involve multiple coordinate frames, what if \
+conversion between them is necessary. Well, when the user creates a new \
+coordinate frame, they will be required to give it a name. The library will \
+then autogenerate methods based on these names to help with these conversion \
+problems. For example, the previously mentioned frame could be name \
+\[OpenCurlyDoubleQuote]Primed\[CloseCurlyDoubleQuote] and thus the library \
+would autogenerate the function ToPrimed, and it would convert any mixed \
+vector purely into the primed frame, acutally, I need to find a way to handle \
+the different coordinate systems as well, something that would avoid having \
+to create three new methods called ToPrimedCartesian ToPrimedCylindrical and \
+ToPrimedSpherical. Ok, I can just have the three same old functions called \
+ToCartesian ToCylindrical and ToSpherical, but now they will additionally \
+input which frame they should output to. Actually, I could just write the \
+definitions of ToCartesian ToCylindrical and ToSpherical to include the \
+transformation rules required by primed coordinates. If you think about it, \
+the definitions of these methods will no doubt still require rewriting \
+everytime a new frame is introduced, but I think I can automate that with the \
+library resonably easily if I just set up a few variables (lists of rules \
+that I can get from the transformation matrix and substitutions mostly) and \
+use them well. I will still of course want to make at least one new method \
+and that would be ToPrimed. I will still want to include the frame of the \
+output vector of the ToCartesian ToCylindrical and ToSpherical functions as \
+an additional (potentially optional) parameter though. Now onto the palette. \
+The palette should dynamically update to include new frames (i.e. their \
+associated funcitons). I\[CloseCurlyQuote]m envisioning it a certain way \
+which I have written in my notebook. It will take a bit of work to get it to \
+look nice but I think it is worth it. Also, just for convienience, if there \
+is a way to determine if there is anything selected when a button is pressed \
+and if there isn\[CloseCurlyQuote]t anything selected, the pallette should \
+spit out a definition for what its buttons do if one of the buttons is \
+pressed when there is nothing selected. This lets people save definitions \
+they want to use for later, or in code, or without accessing the palette. But \
+if there is something selected, it should simply apply the function and move \
+on evaluating it like it does now.\n\nThinking about the transformation of \
+coordinate systems. Technically, all transformations are just \
+parameterizations. And any parameterization is valid as long as one \
+recognizes that the values output from that coordinate system (like the \
+values of coefficients and such) are in the \
+parameterization\[CloseCurlyQuote]s \[OpenCurlyDoubleQuote]space\
+\[CloseCurlyDoubleQuote]. For example when an object is at (1,Pi) in polar, \
+it does not mean it is 1 to my right and Pi above me, that is only true in \
+\[OpenCurlyDoubleQuote]polar space\[CloseCurlyDoubleQuote]. In this thinking \
+there is only one coordinate system that is \[OpenCurlyDoubleQuote]valid\
+\[CloseCurlyDoubleQuote], and it is the one that I define for myself at the \
+start of some thing (like a problem or other physical observation). This \
+coordinate system that I define for my self (remember that all I see are \
+vectors, each one unique and independant, absolutly no notion of coordinates \
+at all) is then essentially given an overlay (maybe think: interface from \
+java) and this overlay is what we call the cartesian coordinate system. This \
+is why it is only true/pure coordinate system, because it is the only one \
+directly attached to how I see things. Everything else is simply an \
+abstraction, typically a parameterization. Ok enough rambling, you get the \
+point. The point is, when I\[CloseCurlyQuote]m implementing this reference \
+frame stuff, I shouldn\[CloseCurlyQuote]t be afraid to have literally any \
+transformation allowed. They are all valid parameterizations, and because all \
+coordinate systems, are just parameterizations, they are all valid coordinate \
+systems. But does this apply to reference frames, what is the difference \
+between a reference frame and and a coordinate system and a transformation. \
+Well a reference frame is a transformation (which can also be written as a \
+parameterization) which we will write with new coordinates. And physically, \
+reference frames are only found by relative translations and rotations. Ahhh, \
+see what I\[CloseCurlyQuote]m implementing is not different reference frames, \
+no, no , no. I am implementing different coordinate frames. Frames where we \
+have different coordinates that can be produced as arbitrary \
+parameterizations of the origional coordinates. Ok, so thats all fine and \
+dandy. And now what is this last thing, what is the difference between what I \
+have been talking about and transformations. Well a transformation is best \
+thought of as simply an operation on a thing and then an optional (typically \
+done though) reassignment of the origional thing to the output of the \
+operation. So a transformation of a coordinate system is when you actually \
+produce a whole new coordinate system and then use the old symbols as the new \
+symbols and delete all info associated with the old symbols (so that there is \
+no conflicts or anything like that). I understand the utility of this. To \
+implement it in this system I would need to implement a way to delete \
+coordinate systems. Which, if I can figure out how to add them, I have to \
+imagnine I can figure out how to delete them. This transformation would then \
+be implemented essentially using the techniques of creating reassigning and \
+deleting coordinate systems. Also note, fun fact, in this sense of thinking \
+about things, the CreateReferecneFrame function or whatever I called it down \
+below (or potnentially above, I don\[CloseCurlyQuote]t know or care), when \
+called with a transformation from a given coordinate frame is essentially a \
+operation on that given coordinate frame, look at that, actually identifying \
+the abstract term with an actual thing in the code. Pretty Cool!\n\nOk, I\
+\[CloseCurlyQuote]ve been thinking about how I\[CloseCurlyQuote]m going to \
+accomplish this, specifically, the making it work with alternate coordinate \
+systems part. Well I haven\[CloseCurlyQuote]t figured that out yet. But I \
+have figured out how to write alternate coordnates. What I need to do is \
+rewrite this whole file using symbolic variables, or, just variables. \
+Basically, everytime I write the symbol x y r \[Phi] what I am actually \
+thinking of is the corresponding word. You see, my current system actually \
+only supports 2 (or 3 in the 3d version) coordinate systems, and I have \
+simply choosen the symbols x y r \[Phi] to represent those coordinates. And I \
+have made the mistake of filling my code with those coordinate symbols, \
+instead of the actual coordinates. I did this because I knew it would work, \
+but that is it. What I actually should have been doing is thinking of the \
+coordinates, instead of just the symbols x y r \[Phi]. I\[CloseCurlyQuote]m \
+explaining this poorly (and I don\[CloseCurlyQuote]t really understand how I \
+came up with this in the first place) but basically what I need to do is \
+first put pretty much put my entire codebase into one function called \
+CreateCoordinateSystem, and then, anywhere I see a  x y r \[Phi] I need to \
+replace it with the variable rectangularCoordinate1 rectangularCoordinate2 \
+polarRadius polarAzimuthalAngle. These variable names are long though so they \
+should be shortened to rect1 rect2 polRad polAng (for the 3d version it will \
+be rect1 rect2 rect3 zAxisRad aziAng originRad polAng) thus the method \
+heading for CreateCoordinateSystem (as of right now) is \
+CreateCoordinateSystem[rect1_Symbol,rect2_Symbol,polRad_Symbol,polAng_Symbol] \
+(to be clear, there will eventually be more in this definition, stuff that \
+will relate one coordinate system to another, so basically, a transformation. \
+But, as stated earlier, I haven\[CloseCurlyQuote]t figureed out how to \
+represent those, so this is what its gonna be like for now). But tbh, now \
+that I think about it, this is a really big change, and I definitely want to \
+have an easy way to revert the changes. For that reason, I am going to learn \
+and figure out how to use github and get all this code uploaded there. Then I \
+can go about making this change. Yayyy!!!\n\nOk, current plan is to just \
+upload the different files and then to work on turning version 5 (this one) \
+into something that can legitimatley be worked on using git and github. But \
+first, I must upload the packages. I will only upload up to version 4, the \
+only version that is both stable and actually good. Version 5 and the 3d \
+version will both be part of the actual repository and will have commits and \
+all that associated with them, so that will take some time to get up and \
+running. I will handle the whole paclet thing later.\n\nThis is kinda trivial \
+and uneccessary because the way to do it is already avaliable, but if one \
+wanted to multiply by a matrix or do any similar transformation, it takes a \
+little space: FromCartesianList[ToCartesianList[v].(matrix)]. Perhaps I can \
+make a prettier looking way of doing this, like adding a new definition of \
+the CenterDot operation to allow for matricies and such. Ideally some way \
+that doens\[CloseCurlyQuote]t require converting to a list, because this way \
+forces you to pick a coordinate system (otherwise the list acting as a \
+Mathematica vector won\[CloseCurlyQuote]t make sense in Mathematica) which \
+can make formatting harder. It would be nice to not need to worry about that \
+stuff (I will also need to check that the input symbols \
+don\[CloseCurlyQuote]t have any overlap. As far as I can think it, there can \
+be absolutyly no symbol overlap whatsoever. If a symbol is already in use, \
+and this funciton is called with it, then this function will need to throw an \
+error. This means there will need to be a global list of all symbols in use, \
+and that the create system functions will add to it. So there, already at \
+least one thing which will actually be independent of this function).\n\n\
+Also, it would be neat if there was a key command to apply a function to a \
+selection. Like if I wrote a pure function (or just saved a function name to \
+my clipboard) and then hit like control + A and it would apply the function \
+to whatever I had selected and then execute it i.e. evaluate it in place like \
+that one right click option. Since the right click option does this, I bet \
+there is a way to do it in the language as well, like through FrontEndTokens, \
+and therefore I bet I can add my own hotkey/front end token to make it work.\n\
+\nHave everything work with mapping to piecewise functions, those are \
+obviously very important in E&M.\n\nOther features: special relativity \
+support (basically only difference is that reference frames now need to \
+include the relative velocity (which unless specified should be assumed \
+zero), though I do need to think about how different things get transformed \
+in those cases, for example, I have no idea how an arbitrary vector field is \
+transformed, I know the E and B fields (probably a special case though) and \
+kinematics works differently to all this stuff. Which reminds me...\nfigure \
+out how on earth to implement kinematics support, these are things we usually \
+represent with vectors, but they are not vector fields, and the system \
+assumes everything is vector field, maybe the difference would be if it is \
+written using a capitol letter then it is interpreted as a field and if not \
+then it is just some other vector quantity. Actually, this may not even be \
+neccessary. Anyways, there is another feature which would be great which \
+is...\nsupport for time varying stuff; time varying fields, scalars, and \
+other things. This would be especially useful when I get to working with \
+kinematic quantities. \nIf I do get into the realm of kinematics, I should \
+definitly consider trying to make something that calculates stuff for \
+non-inertial references frames. That would be pretty cool.\n\nOk, maybe the \
+key to representing both vector fields and vectors in this library (and thus \
+allowing for both kinematics and E&M) is to literally just have two separate \
+data types, the first of which is Vector (or Vector2D in this case) and the \
+second of which is VectorField (or VectorField2D in this case). These may \
+then make the division between the two easier. For example, I can easily \
+imagine making time dependent vectors (the kinetmatics kind, that is, as \
+opposed to vector fields) very easily use the Vector2D, whereas time \
+dependant VectorField2D will have a bit more background behind it (I think). \
+Woooooooo!!!! I actually think this could work. For example, if I were to get \
+the value of a time dependant vector field at a specific point, then this \
+would simply be a time dependant vector, and if there is a data type built in \
+to do this, this should be easy to output. I\[CloseCurlyQuote]m so happy \
+right now :) !!!!! The exact implementation of how to make these sort of time \
+dependant vectors will still be a little tricky I think (though come to think \
+of it, it may actually be trivial as well) so I will still need to think \
+about this a little bit. But for now, this is great. One last thing, I need \
+to think about how to handle the path of particles in kinematics, because \
+naturally this a very important thing. Problem is, imo I \
+don\[CloseCurlyQuote]t believe that positions even should be represented as \
+vectors. And for good reason as well which I have discussed elsewhere (the \
+jist is that positions act differently under translations compared to every \
+other kind of vector like ever (by which I mean, they change, unlike all \
+other vectors)), and I still need to think about if this is going to cause me \
+any grief when it comes to considering things in different reference frames \
+(or potentially different coordinate frames). Now that I think about it, it \
+might not, but I still need to think about this. Anyways, thanks for reading! \
+Bye!\n\nThis is getting to be a lot of features in version 5, maybe I need to \
+think about putting off many of these features until version 6. Additionally, \
+I should consider making a list of what counts a main feature that I am going \
+to put in the main versions, and what counts as a \[OpenCurlyDoubleQuote]bell \
+and whistle\[CloseCurlyDoubleQuote] that I will only put in my personal \
+copies and then somehow distribute in some other way. \n\nFor the mathematic \
+vector project i should create a function called detectKnowns that will \
+detect all no and electromagnetic variables and calculate all possible \
+electromagnetic variables derivable from those. This would be a utility \
+method to assist with electromagnetic stuff specifically comma and therefore \
+shouldn\[CloseCurlyQuote]t be included in the whole package. it would require \
+predefined variables to be used for the various quantities like V4 electric \
+potential T for Maxwell stress tensor E for electric field, B for magnetic \
+field etc.although I could optionally give the function parameters that are \
+symbols that are to be used as various electromagnetic quantities, I could \
+also do this using options in the following way: \
+\[OpenCurlyDoubleQuote]ElectricField\[CloseCurlyDoubleQuote]->E, \
+\[OpenCurlyDoubleQuote]Magnetic Field\[CloseCurlyDoubleQuote]->H (for \
+example), \
+\[OpenCurlyDoubleQuote]MaxwellStressTensor\[CloseCurlyDoubleQuote]->M (if, \
+for some reason, one wanted to use M instead of T). Hmm, I\[CloseCurlyQuote]m \
+trying to decide which one I like more. Ok, I think the option way is better, \
+because then using Options and OptionValues (I think that is the method \
+name), one can see the available variables and the defaults they are set to. \
+Another reason this is better it that it lets the user programmatically \
+select the symbols they want to use (change) instead of requiring all of them \
+to be entered, as would be if I were going with the parameters decision. \
+Also, this could be a fun project in working with directed/undirected graphs. \
+Basically, to determine what can be found from what by going in what order, I \
+would just need to produce a directed graph. For example, E and V can be \
+found from each other, but T can only be found from E and M. Additionally, I \
+am sure there are many more I could through in. Additionally, I would need to \
+consider what formulas to put in. Actually, what I meant is: do I use the \
+static formulas or Maxwell\[CloseCurlyQuote]s equations. And now I realize, \
+this begs the issue even more of how am I going to incorporate time into \
+this. If time is included, then I can tell I must turn to Maxwell\
+\[CloseCurlyQuote]s equations, and I have no idea what to do from there (try \
+to turn it into a system of pde\[CloseCurlyQuote]s and then let DSolve take a \
+crack at it, maybe toss in a few other clever tricks to help it along if I \
+can think of any? I\[CloseCurlyQuote]m mean, I think that\[CloseCurlyQuote]s \
+all I really can do), but if time isn\[CloseCurlyQuote]t included then I just \
+its definitely not there and that it is a time independent aka, static \
+definition, from which I can derive many things just using the nice \
+identities in Griffiths. Ok, this is all actually pretty cool. I should enter \
+in those equations for the inverse curl, the inverse divergence, and the \
+inverse gradient (or compare them with the ones Griffith has) and then toss \
+in a few of those standard values for the E and B of various objects like \
+point charges and dipoles, infinite lines and planes of charge and current \
+oriented in various directions, and call it a package. There is also the \
+whole question of drawing everything in 3d space using some sort of 3d \
+drawer, but that is a question for another day. Also, this is probably \
+something I should consider separate from the actual project, as it doesn\
+\[CloseCurlyQuote]t fit in nicely. Anyways, thanks for reading. Bye!\n\nAlso, \
+on redoing the formatter, I am thinking of putting that off until version 6, \
+just because this is already a lot of work and I kinda want to. Anyways, that \
+will all happen when I get around to actually making this all work with git. \
+Yay\[Ellipsis] Anyways, I\[CloseCurlyQuote]m thinking, one of the main \
+features of 6 should probably be to introduce the newly thought of difference \
+between vectors and vector fields and (perhaps most importantly) finally \
+introduce time dependence. Then maybe version 7 can finally add\[Ellipsis], \
+oh wait I have a better idea, release it as a separate package: some sort of \
+package to do animations with the vector fields changing over time, like, \
+that would actually be pretty cool, and a good opportunity to write some \
+custom functions using the vectors that would actually be kinda fun. Man, I\
+\[CloseCurlyQuote]m actually looking forward to that. Anyways, it\
+\[CloseCurlyQuote]s a ways off anyway because I have a lot. And I mean A LOT, \
+of work left to do before I get there (especially since I haven\
+\[CloseCurlyQuote]t even figured out how I want to do the time variance yet, \
+but say la v). Alright, thank yall for reading. Bye!\n\n\nAlso I should get \
+to work on those keyboard macros.\n\nOk, thats a good list to get started, I \
+will keep adding to this if I have any more ideas."
+}], "Text",
+ CellChangeTimes->{{3.7889165867188683`*^9, 3.788916683141858*^9}, {
+   3.7889168182666273`*^9, 3.7889170288665576`*^9}, {3.788917144444722*^9, 
+   3.7889172303948603`*^9}, {3.788917279852293*^9, 3.7889174706741104`*^9}, {
+   3.788917509937603*^9, 3.788917636265066*^9}, {3.7889176949122343`*^9, 
+   3.788917726275813*^9}, {3.7889177742088823`*^9, 3.788917792355522*^9}, {
+   3.788917829170253*^9, 3.788917927501892*^9}, {3.7889179588209133`*^9, 
+   3.7889184365811977`*^9}, {3.7889185319017344`*^9, 
+   3.7889187145938997`*^9}, {3.788918828386875*^9, 3.7889189097655888`*^9}, {
+   3.788918963883074*^9, 3.7889192185394*^9}, {3.7893447254595547`*^9, 
+   3.789344808365533*^9}, {3.789344848985003*^9, 3.7893450224728026`*^9}, {
+   3.7893453656696396`*^9, 3.789345387964156*^9}, {3.78934544886563*^9, 
+   3.7893454898978267`*^9}, {3.7893455516026306`*^9, 
+   3.7893456410060387`*^9}, {3.789345766541963*^9, 3.789345839232694*^9}, {
+   3.789345905592164*^9, 3.789345936256062*^9}, {3.7893459822021246`*^9, 
+   3.7893460110944767`*^9}, {3.789346074212697*^9, 3.78934608407451*^9}, {
+   3.789346123748935*^9, 3.7893461326698027`*^9}, {3.789346244548457*^9, 
+   3.789346264939581*^9}, {3.789346302372977*^9, 3.789346344310649*^9}, {
+   3.789346427176831*^9, 3.789346488246645*^9}, {3.78934652556394*^9, 
+   3.78934663463505*^9}, {3.789346761583292*^9, 3.78934684331051*^9}, {
+   3.7893469463316326`*^9, 3.7893470317985954`*^9}, {3.7893470867505274`*^9, 
+   3.7893470970151377`*^9}, {3.7893474080117855`*^9, 
+   3.7893474955914373`*^9}, {3.7893476579479895`*^9, 
+   3.7893476737507176`*^9}, {3.7893477455069075`*^9, 3.789347778615257*^9}, {
+   3.789347896416926*^9, 3.7893479491249294`*^9}, {3.789348016736476*^9, 
+   3.7893480216564198`*^9}, {3.789348094543501*^9, 3.7893481504328737`*^9}, {
+   3.7893482054189825`*^9, 3.7893482607767773`*^9}, {3.789348378345536*^9, 
+   3.789348445553457*^9}, {3.7893488860616446`*^9, 3.7893490379349337`*^9}, {
+   3.789350923705986*^9, 3.7893511031760635`*^9}, {3.789351147822878*^9, 
+   3.789351161251582*^9}, {3.789351222664401*^9, 3.7893514032176857`*^9}, {
+   3.7893515830475516`*^9, 3.7893516096493835`*^9}, {3.789351640851323*^9, 
+   3.789351718706241*^9}, {3.790046364694193*^9, 3.7900463834734364`*^9}, {
+   3.790046557029075*^9, 3.790046567449774*^9}, {3.790100351328326*^9, 
+   3.7901003802250547`*^9}, {3.790100447813302*^9, 3.7901004536114388`*^9}, {
+   3.7901005014271793`*^9, 3.7901005680777674`*^9}, {3.7901006258405676`*^9, 
+   3.790100749574011*^9}, {3.79010078321437*^9, 3.7901008196471624`*^9}, {
+   3.7901008666304474`*^9, 3.790100925716343*^9}, {3.790101046684908*^9, 
+   3.790101121233028*^9}, {3.7901012315997996`*^9, 3.7901013072562065`*^9}, {
+   3.790102242833742*^9, 3.790102300749642*^9}, {3.7901025013625493`*^9, 
+   3.7901025168526506`*^9}, {3.790102851570507*^9, 3.790102963222278*^9}, {
+   3.790103060120885*^9, 3.790103128495985*^9}, {3.790103602457225*^9, 
+   3.790103631329091*^9}, {3.790103747441139*^9, 3.790103803004476*^9}, {
+   3.7901039537073464`*^9, 3.7901039814375205`*^9}, {3.7901041470357385`*^9, 
+   3.790104185718673*^9}, {3.7901042767448187`*^9, 3.7901042893962183`*^9}, {
+   3.790104369143566*^9, 3.7901043833722095`*^9}, {3.790117306718893*^9, 
+   3.7901173151007366`*^9}, {3.7901174145700426`*^9, 3.790117487412706*^9}, {
+   3.7901175390272574`*^9, 3.790117595606629*^9}, {3.7901176661444225`*^9, 
+   3.7901176906573963`*^9}, {3.7901226440756435`*^9, 
+   3.7901226734944305`*^9}, {3.790122712850751*^9, 3.790122714741249*^9}, 
+   3.7901229549653606`*^9, {3.79012299505092*^9, 3.7901231423642883`*^9}, {
+   3.790123238653496*^9, 3.7901232699313045`*^9}, {3.790123362882344*^9, 
+   3.790123442201295*^9}, {3.790123517704258*^9, 3.790123528609415*^9}, {
+   3.790123583436094*^9, 3.790123593013197*^9}, {3.790123649983077*^9, 
+   3.790123735942634*^9}, {3.7901237944676228`*^9, 3.7901237960920362`*^9}, {
+   3.7901238323850155`*^9, 3.790123832416213*^9}, {3.7901240079988694`*^9, 
+   3.790124189461048*^9}, {3.79012423663894*^9, 3.790124350266756*^9}, {
+   3.790125001396229*^9, 3.790125195829421*^9}, {3.790125264971898*^9, 
+   3.7901253436488137`*^9}, {3.7901255103583465`*^9, 3.790125820090349*^9}, {
+   3.790125886368396*^9, 3.790125939128441*^9}, {3.7901259764734416`*^9, 
+   3.790126337815625*^9}, {3.7901265177177596`*^9, 3.7901265990326743`*^9}, {
+   3.7901266359193363`*^9, 3.7901266602022333`*^9}, {3.7901270918890038`*^9, 
+   3.7901272083629837`*^9}, {3.790212481586196*^9, 3.790212518662652*^9}, {
+   3.7902126794769707`*^9, 3.790212819683958*^9}, {3.790212999249709*^9, 
+   3.790213023681172*^9}, {3.790213206582949*^9, 3.790213209093006*^9}, {
+   3.7902132673519225`*^9, 3.790213277918763*^9}, {3.7902134747880936`*^9, 
+   3.790213515356862*^9}, {3.7902135717620263`*^9, 3.7902136266999807`*^9}, {
+   3.790213670746379*^9, 3.7902138308366003`*^9}, {3.7902138612784433`*^9, 
+   3.7902138846061254`*^9}, {3.790213967053358*^9, 3.7902141428924446`*^9}, {
+   3.7902144527488985`*^9, 3.7902145338341503`*^9}, {3.7903984398900795`*^9, 
+   3.7903984416594796`*^9}, {3.791430377497476*^9, 3.7914304602883205`*^9}, {
+   3.791430565567137*^9, 3.7914305869015265`*^9}, {3.791430618709221*^9, 
+   3.7914307490820847`*^9}, {3.7914314111675816`*^9, 3.79143150975251*^9}, {
+   3.791431547767905*^9, 3.791431560594267*^9}, {3.791431695101408*^9, 
+   3.7914318131263676`*^9}, {3.791432032394743*^9, 
+   3.7914320718222923`*^9}},ExpressionUUID->"dd31002d-3fff-4316-8356-\
+9644c847c7b2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Assumptions", " ", "about", " ", "the", " ", "coordinates"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"$Assumptions", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x", ",", "y", ",", "r", ",", "\[Phi]"}], "}"}], 
+        "\[Element]", "Reals"}], ",", 
+       RowBox[{"r", ">", "0"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Vector", " ", "addition"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vector2D", "/:", 
+     RowBox[{"Plus", "[", 
+      RowBox[{"v1_Vector2D", ",", "v2_Vector2D"}], "]"}], ":=", 
+     RowBox[{"Vector2D", "@@", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"List", "@@", "v1"}], "+", 
+        RowBox[{"List", "@@", "v2"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Dot", " ", "products"}], ",", " ", 
+     RowBox[{
+     "must", " ", "be", " ", "defined", " ", "before", " ", "scalar", " ", 
+      "multiplication", " ", "to", " ", "give", " ", "it", " ", "evaluation", 
+      " ", "precedence"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vector2D", "/:", 
+     RowBox[{"a_.", " ", 
+      RowBox[{"b_Vector2D", "\[CenterDot]", "c_"}], " ", "d_Vector2D"}], ":=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"a", " ", "b"}], ")"}], "\[CenterDot]", 
+      RowBox[{"(", 
+       RowBox[{"c", " ", "d"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vector2D", "/:", 
+     RowBox[{"CenterDot", "[", 
+      RowBox[{
+       RowBox[{"v1", ":", 
+        RowBox[{"Vector2D", "[", 
+         RowBox[{"x1_", ",", "y1_", ",", "r1_", ",", "\[Phi]1_"}], "]"}]}], 
+       ",", 
+       RowBox[{"v2", ":", 
+        RowBox[{"Vector2D", "[", 
+         RowBox[{"x2_", ",", "y2_", ",", "r2_", ",", "\[Phi]2_"}], "]"}]}]}], 
+      "]"}], ":=", 
+     RowBox[{"Simplify", "@", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"trans1", "=", 
+           RowBox[{
+            RowBox[{"(", GridBox[{
+               {
+                RowBox[{"Cos", "[", "\[Phi]", "]"}], 
+                RowBox[{"Sin", "[", "\[Phi]", "]"}]},
+               {
+                RowBox[{"-", 
+                 RowBox[{"Sin", "[", "\[Phi]", "]"}]}], 
+                RowBox[{"Cos", "[", "\[Phi]", "]"}]}
+              }], ")"}], ".", 
+            RowBox[{"(", GridBox[{
+               {"x1"},
+               {"y1"}
+              }], ")"}]}]}], ",", 
+          RowBox[{"trans2", "=", 
+           RowBox[{
+            RowBox[{"(", GridBox[{
+               {
+                RowBox[{"Cos", "[", "\[Phi]", "]"}], 
+                RowBox[{"Sin", "[", "\[Phi]", "]"}]},
+               {
+                RowBox[{"-", 
+                 RowBox[{"Sin", "[", "\[Phi]", "]"}]}], 
+                RowBox[{"Cos", "[", "\[Phi]", "]"}]}
+              }], ")"}], ".", 
+            RowBox[{"(", GridBox[{
+               {"x2"},
+               {"y2"}
+              }], ")"}]}]}]}], "}"}], ",", 
+        RowBox[{"Module", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"u1", "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"r1", "+", 
+                RowBox[{"trans1", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}]}], ",", 
+               RowBox[{"\[Phi]1", "+", 
+                RowBox[{"trans1", "\[LeftDoubleBracket]", 
+                 RowBox[{"2", ",", "1"}], "\[RightDoubleBracket]"}]}]}], 
+              "}"}]}], ",", 
+            RowBox[{"u2", "=", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"r2", "+", 
+                RowBox[{"trans2", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}]}], ",", 
+               RowBox[{"\[Phi]2", "+", 
+                RowBox[{"trans2", "\[LeftDoubleBracket]", 
+                 RowBox[{"2", ",", "1"}], "\[RightDoubleBracket]"}]}]}], 
+              "}"}]}]}], "}"}], ",", 
+          RowBox[{"u1", ".", "u2"}]}], "]"}]}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Scalar", " ", "multiplication"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Vector2D", "/:", 
+     RowBox[{"Times", "[", 
+      RowBox[{"c_", ",", "v_Vector2D"}], "]"}], ":=", 
+     RowBox[{"Vector2D", "@@", 
+      RowBox[{"(", 
+       RowBox[{"c", " ", 
+        RowBox[{"List", "@@", "v"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Magnitude", " ", "and", " ", "UnitVector"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Magnitude2D", "[", "v_Vector2D", "]"}], ":=", 
+     SqrtBox[
+      RowBox[{"v", "\[CenterDot]", "v"}]]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"UnitVector2D", "[", "v_Vector2D", "]"}], ":=", 
+     FractionBox["v", 
+      RowBox[{"Magnitude2D", "[", "v", "]"}]]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Conversion", " ", "between", " ", "coordinate", " ", "systems"}],
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "Scalars", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToCartesian", "[", "scalar_", "]"}], ":=", 
+     RowBox[{"Simplify", "[", 
+      RowBox[{"scalar", "/.", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"r", "\[Rule]", 
+          SqrtBox[
+           RowBox[{
+            SuperscriptBox["x", "2"], "+", 
+            SuperscriptBox["y", "2"]}]]}], ",", 
+         RowBox[{"\[Phi]", "\[Rule]", 
+          RowBox[{"ArcTan", "[", 
+           RowBox[{"x", ",", "y"}], "]"}]}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToPolar", "[", "scalar_", "]"}], ":=", 
+     RowBox[{"Simplify", "[", 
+      RowBox[{"scalar", "/.", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"x", "\[Rule]", 
+          RowBox[{"r", " ", 
+           RowBox[{"Cos", "[", "\[Phi]", "]"}]}]}], ",", 
+         RowBox[{"y", "\[Rule]", 
+          RowBox[{"r", " ", 
+           RowBox[{"Sin", "[", "\[Phi]", "]"}]}]}]}], "}"}]}], "]"}]}], ";"}],
+    "\[IndentingNewLine]", 
+   RowBox[{"(*", "Vectors", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToCartesian", "[", 
+      RowBox[{"Vector2D", "[", 
+       RowBox[{"xhat_", ",", "yhat_", ",", "rhat_", ",", "\[Phi]hat_"}], 
+       "]"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"trans", "=", 
+         RowBox[{
+          FractionBox["1", 
+           SqrtBox[
+            RowBox[{
+             SuperscriptBox["x", "2"], "+", 
+             SuperscriptBox["y", "2"]}]]], 
+          RowBox[{
+           RowBox[{"(", GridBox[{
+              {"x", 
+               RowBox[{"-", "y"}]},
+              {"y", "x"}
+             }], ")"}], ".", 
+           RowBox[{"(", GridBox[{
+              {
+               RowBox[{"ToCartesian", "[", "rhat", "]"}]},
+              {
+               RowBox[{"ToCartesian", "[", "\[Phi]hat", "]"}]}
+             }], ")"}]}]}]}], "}"}], ",", 
+       RowBox[{"Simplify", "@", 
+        RowBox[{"Vector2D", "[", 
+         RowBox[{
+          RowBox[{"xhat", "+", 
+           RowBox[{"trans", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ",", 
+          RowBox[{"yhat", "+", 
+           RowBox[{"trans", "[", 
+            RowBox[{"[", 
+             RowBox[{"2", ",", "1"}], "]"}], "]"}]}], ",", "0", ",", "0"}], 
+         "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToPolar", "[", 
+      RowBox[{"Vector2D", "[", 
+       RowBox[{"xhat_", ",", "yhat_", ",", "rhat_", ",", "\[Phi]hat_"}], 
+       "]"}], "]"}], ":=", "\[IndentingNewLine]", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"trans", "=", 
+         RowBox[{
+          RowBox[{"(", GridBox[{
+             {
+              RowBox[{"Cos", "[", "\[Phi]", "]"}], 
+              RowBox[{"Sin", "[", "\[Phi]", "]"}]},
+             {
+              RowBox[{"-", 
+               RowBox[{"Sin", "[", "\[Phi]", "]"}]}], 
+              RowBox[{"Cos", "[", "\[Phi]", "]"}]}
+            }], ")"}], ".", 
+          RowBox[{"(", GridBox[{
+             {
+              RowBox[{"ToPolar", "[", "xhat", "]"}]},
+             {
+              RowBox[{"ToPolar", "[", "yhat", "]"}]}
+            }], ")"}]}]}], "}"}], ",", 
+       RowBox[{"Simplify", "@", 
+        RowBox[{"Vector2D", "[", 
+         RowBox[{"0", ",", "0", ",", 
+          RowBox[{"rhat", "+", 
+           RowBox[{"trans", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ",", 
+          RowBox[{"\[Phi]hat", "+", 
+           RowBox[{"trans", "\[LeftDoubleBracket]", 
+            RowBox[{"2", ",", "1"}], "\[RightDoubleBracket]"}]}]}], "]"}]}]}],
+       "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Conversion", " ", 
+     RowBox[{"to", "/", "from"}], " ", "lists", " ", "for", " ", "use", " ", 
+     "with", " ", "built", " ", "in", " ", "functions"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToCartesianList", "[", "v_Vector2D", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"ToCartesian", "[", "v", "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ";;", "2"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FromCartesianList", "[", "l_List", "]"}], ":=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{
+       RowBox[{"l", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"l", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], ",", "0", ",", "0"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ToPolarList", "[", "v_Vector2D", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"ToPolar", "[", "v", "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"3", ";;", "4"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"FromPolarList", "[", "l_List", "]"}], ":=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{"0", ",", "0", ",", 
+       RowBox[{"l", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"l", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"And", " ", "actually"}], ",", " ", 
+     RowBox[{
+     "I", " ", "think", " ", "this", " ", "is", " ", "actually", " ", "about",
+       " ", "as", " ", "efficient", " ", "as", " ", "it", " ", "can", " ", 
+      RowBox[{"get", ".", " ", "All"}], " ", "the", " ", "weird", " ", 
+      "stuff", " ", 
+      RowBox[{"I", "'"}], "m", " ", "getting", " ", "symbolically", " ", "is",
+       " ", "just", " ", "that"}], ",", " ", 
+     RowBox[{
+      RowBox[{"symbolic", ".", " ", "It"}], " ", "will", " ", "start", " ", 
+      "to", " ", "go", " ", "away", " ", "when", " ", "I", " ", "actually", 
+      " ", "put", " ", "the", " ", "whole", " ", "computational", " ", "back",
+       " ", "end", " ", "on", " ", "this", " ", 
+      RowBox[{"thing", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Ok", ",", " ", 
+     RowBox[{
+     "actually", " ", "I", " ", "definitly", " ", "need", " ", "to", " ", 
+      "add", " ", "error", " ", 
+      RowBox[{"messages", ".", " ", 
+       RowBox[{"(", 
+        RowBox[{"At", " ", "least"}], ")"}]}], " ", "one", " ", "for", " ", 
+      "the", " ", "thing", " ", "listed", " ", "directly", " ", "above"}], 
+     ",", " ", 
+     RowBox[{
+     "and", " ", "one", " ", "for", " ", "if", " ", "anyone", " ", "ever", 
+      " ", "trys", " ", "to", " ", "set", " ", "a", " ", "scalar", " ", "to", 
+      " ", "a", " ", 
+      RowBox[{"vector", ".", " ", "This"}], " ", "will", " ", "require", " ", 
+      "additional", " ", "extra", " ", "code", " ", 
+      RowBox[{"(", 
+       RowBox[{"using", " ", "VG"}], ")"}], " ", "in", " ", "the", " ", "Set",
+       " ", "function", " ", "to", " ", "detect", " ", "if", " ", "someone", 
+      " ", "sets", " ", "a", " ", "thing", " ", "with", " ", "head", " ", 
+      "Symbol", " ", 
+      RowBox[{"(", 
+       RowBox[{
+       "specifically", " ", "not", " ", "OverVector", " ", "or", " ", 
+        "OverHat"}], ")"}], " ", "and", " ", "the", " ", "rhs", " ", "of", 
+      " ", "that", " ", "Set", " ", "is", " ", "a", " ", 
+      RowBox[{"vector", ".", " ", "So"}], " ", "ya"}], ",", " ", 
+     RowBox[{
+     "add", " ", "that", " ", "to", " ", "the", " ", "list", " ", "of", " ", 
+      "things", " ", "to", " ", 
+      RowBox[{"do", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Unprotect", "[", "UpSet", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Once", "@", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"warn", "=", "True"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"expr", ":", 
+          RowBox[{"UpSet", "[", 
+           RowBox[{
+            RowBox[{"OverVector", "[", "sym_Symbol", "]"}], ",", "rhs_"}], 
+           "]"}]}], "/;", "warn"}], ":=", 
+        RowBox[{"Block", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"warn", "=", "False"}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Preprocessing", " ", "here"}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            OverscriptBox["sym", "^"], "^=", 
+            RowBox[{"UnitVector2D", "[", "rhs", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"sym", "=", 
+            RowBox[{"Magnitude2D", "[", "rhs", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{"The", " ", "origional", " ", "expression"}], "*)"}], 
+           "\[IndentingNewLine]", "expr"}]}], "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"Postprocessing", " ", "here"}], "*)"}], 
+         "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "Right", " ", "now", " ", "this", " ", "just", " ", "does", " ", 
+      "nothing", " ", "if", " ", "the", " ", "rhs", " ", "is", " ", "not", 
+      " ", "a", " ", "valid", " ", "unitvector"}], ",", " ", 
+     RowBox[{
+     "I", " ", "need", " ", "a", " ", "more", " ", "advanced", " ", "way", 
+      " ", "to", " ", "determine", " ", "if", " ", "something", " ", "is", 
+      " ", "or", " ", 
+      RowBox[{"isn", "'"}], "t", " ", "a", " ", "unit", " ", "vector"}], ",", 
+     " ", 
+     RowBox[{
+     "also", " ", "I", " ", "should", " ", "have", " ", "it", " ", "throw", 
+      " ", "an", " ", "error", " ", "if", " ", "the", " ", "thing", " ", 
+      RowBox[{"isn", "'"}], "t", " ", "a", " ", "unitvector"}], ",", " ", 
+     RowBox[{"although", " ", "I", " ", 
+      RowBox[{"don", "'"}], "t", " ", "want", " ", "to", " ", "try", " ", 
+      "to", " ", "figure", " ", "that", " ", "part", " ", "out", " ", "right",
+       " ", 
+      RowBox[{"now", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Once", "@", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"warn", "=", "True"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"expr", ":", 
+          RowBox[{"UpSet", "[", 
+           RowBox[{
+            RowBox[{"OverHat", "[", "sym_Symbol", "]"}], ",", "rhs_"}], 
+           "]"}]}], "/;", "warn"}], ":=", 
+        RowBox[{"Block", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"warn", "=", "False"}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Preprocessing", " ", "here"}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{"UnitVector2D", "[", "rhs", "]"}], "\[Equal]", "rhs"}], 
+            "*)"}], 
+           RowBox[{"True", ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"OwnValues", "[", "sym", "]"}], "=!=", 
+                RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+               RowBox[{
+                OverscriptBox["sym", "\[RightVector]"], "^=", 
+                RowBox[{"sym", " ", "rhs"}]}]}], "\[IndentingNewLine]", "]"}],
+              ";", "\[IndentingNewLine]", 
+             RowBox[{"(*", 
+              RowBox[{"Origional", " ", "expression", " ", "here"}], "*)"}], 
+             "\[IndentingNewLine]", "expr"}]}], "\[IndentingNewLine]", 
+           "]"}]}], "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Protect", "[", "UpSet", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Unprotect", "[", "Set", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Once", "@", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"warn", "=", "True"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"expr", ":", 
+          RowBox[{"Set", "[", 
+           RowBox[{"sym_Symbol", ",", "rhs_"}], "]"}]}], "/;", "warn"}], ":=", 
+        RowBox[{"Block", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"warn", "=", "False"}], "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Preprocessing", " ", "here"}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"UpValues", "[", "sym", "]"}], "=!=", 
+              RowBox[{"{", "}"}]}], ",", 
+             RowBox[{
+              OverscriptBox["sym", "\[RightVector]"], "^=", 
+              RowBox[{"rhs", " ", 
+               OverscriptBox["sym", "^"]}]}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{"The", " ", "origional", " ", "expression"}], "*)"}], 
+           "\[IndentingNewLine]", "expr"}]}], "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"Postprocessing", " ", "here"}], "*)"}], 
+         "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Protect", "[", "Set", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Unprotect", "[", 
+     RowBox[{"OverHat", ",", "OverVector"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SetAttributes", "[", 
+     RowBox[{"OverHat", ",", "HoldAll"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SetAttributes", "[", 
+     RowBox[{"OverVector", ",", "HoldAll"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Protect", "[", 
+     RowBox[{"OverHat", ",", "OverVector"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Controlling", " ", "how", " ", "the", " ", "vectors", " ", "display"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Format", "[", "v_Vector2D", "]"}], ":=", "\[IndentingNewLine]", 
+     RowBox[{"DisplayForm", "@", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"signList", ",", 
+          RowBox[{"output", "=", 
+           RowBox[{"{", "}"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"v", "=", 
+          RowBox[{"Simplify", "@", "v"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"signList", "=", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"NumericQ", "[", "#", "]"}], ",", 
+              RowBox[{"Sign", "[", 
+               RowBox[{
+                RowBox[{"FullSimplify", "[", "#", "]"}], "/.", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Sin", "[", "_", "]"}], "\[Rule]", "1"}], ",", 
+                  RowBox[{
+                   RowBox[{"Cos", "[", "_", "]"}], "\[Rule]", "1"}], ",", 
+                  RowBox[{
+                   RowBox[{"Tan", "[", "_", "]"}], "\[Rule]", "1"}]}], 
+                 "}"}]}], "]"}], ",", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"#", "===", "0"}], ",", "0", ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"MatchQ", "[", 
+                    RowBox[{"#", ",", 
+                    RowBox[{"Times", "[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "___"}], "]"}]}], "]"}], "||", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"FactorTermsList", "[", "#", "]"}], "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "<", "0"}]}], ",", 
+                  RowBox[{"-", "1"}], ",", "1"}], "]"}]}], "]"}]}], "]"}], 
+            "&"}], "/@", 
+           RowBox[{"List", "@@", "v"}]}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"num", ",", "letter"}], "}"}], "\[Function]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Switch", "[", 
+             RowBox[{
+              RowBox[{"v", "[", 
+               RowBox[{"[", "num", "]"}], "]"}], ",", "\[IndentingNewLine]", 
+              "1", ",", 
+              RowBox[{"output", "=", 
+               RowBox[{"Append", "[", 
+                RowBox[{"output", ",", 
+                 RowBox[{"Unevaluated", "@", 
+                  RowBox[{"Sequence", "[", 
+                   RowBox[{"\"\<+\>\"", ",", 
+                    RowBox[{"OverscriptBox", "[", 
+                    RowBox[{"letter", ",", "\"\<^\>\""}], "]"}]}], "]"}]}]}], 
+                "]"}]}], ",", "\[IndentingNewLine]", 
+              RowBox[{"-", "1"}], ",", 
+              RowBox[{"output", "=", 
+               RowBox[{"Append", "[", 
+                RowBox[{"output", ",", 
+                 RowBox[{"Unevaluated", "@", 
+                  RowBox[{"Sequence", "[", 
+                   RowBox[{"\"\<-\>\"", ",", 
+                    RowBox[{"OverscriptBox", "[", 
+                    RowBox[{"letter", ",", "\"\<^\>\""}], "]"}]}], "]"}]}]}], 
+                "]"}]}], ",", "\[IndentingNewLine]", "0", ",", ",", 
+              "\[IndentingNewLine]", "_", ",", 
+              RowBox[{"output", "=", 
+               RowBox[{"Append", "[", 
+                RowBox[{"output", ",", 
+                 RowBox[{"Unevaluated", "@", 
+                  RowBox[{"Sequence", "[", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"Switch", "[", 
+                    RowBox[{
+                    RowBox[{"signList", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"-", "1"}], ",", "\"\<-\>\"", ",", 
+                    "\[IndentingNewLine]", "1", ",", "\"\<+\>\"", ",", 
+                    "\[IndentingNewLine]", "0", ",", "\"\<0\>\""}], 
+                    "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Head", "[", 
+                    RowBox[{"v", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}], "]"}], "===", "Plus"}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{"Unevaluated", "@", 
+                    RowBox[{"Sequence", "[", 
+                    RowBox[{"\"\<(\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"v", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}], " ", 
+                    RowBox[{"signList", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}]}], ",", "\"\<)\>\""}], 
+                    "]"}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"v", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}], " ", 
+                    RowBox[{"signList", "[", 
+                    RowBox[{"[", "num", "]"}], "]"}]}]}], 
+                    "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"OverscriptBox", "[", 
+                    RowBox[{"letter", ",", "\"\<^\>\""}], "]"}]}], 
+                   "\[IndentingNewLine]", "]"}]}]}], " ", 
+                "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+             "]"}]}], ")"}], "@@@", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"1", ",", "2", ",", "3", ",", "4"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"x", ",", "y", ",", "r", ",", "\[Phi]"}], "}"}]}], 
+            "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"output", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "\[Equal]", "\"\<+\>\""}], ",", 
+           RowBox[{"output", "=", 
+            RowBox[{"Drop", "[", 
+             RowBox[{"output", ",", "1"}], "]"}]}], ",", "output"}], "]"}], 
+         ";", "\[IndentingNewLine]", 
+         RowBox[{"RowBox", "[", "output", "]"}]}]}], "\[IndentingNewLine]", 
+       "]"}]}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "For", " ", "evaluating", " ", "these", " ", "vectors", " ", "at", " ", 
+     "specific", " ", "points"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ValAt", "[", 
+      RowBox[{"a_", ",", "b_"}], "]"}], ":=", 
+     RowBox[{"ValAt", "[", 
+      RowBox[{"a", ",", "b", ",", "\"\<Cartesian\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ValAt", "[", 
+      RowBox[{"a_", ",", "b_", ",", "\"\<Cartesian\>\""}], "]"}], ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"x", "\[Rule]", "a"}], ",", 
+       RowBox[{"y", "\[Rule]", "b"}], ",", 
+       RowBox[{"r", "\[Rule]", 
+        SqrtBox[
+         RowBox[{
+          SuperscriptBox["a", "2"], "+", 
+          SuperscriptBox["b", "2"]}]]}], ",", 
+       RowBox[{"\[Phi]", "\[Rule]", 
+        RowBox[{"ArcTan", "[", 
+         RowBox[{"a", ",", "b"}], "]"}]}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ValAt", "[", 
+      RowBox[{"a_", ",", "b_", ",", "\"\<Polar\>\""}], "]"}], ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"x", "\[Rule]", 
+        RowBox[{"a", " ", 
+         RowBox[{"Cos", "[", "b", "]"}]}]}], ",", 
+       RowBox[{"y", "\[Rule]", 
+        RowBox[{"a", " ", 
+         RowBox[{"Sin", "[", "b", "]"}]}]}], ",", 
+       RowBox[{"r", "\[Rule]", "a"}], ",", 
+       RowBox[{"\[Phi]", "\[Rule]", "b"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Defining", " ", "the", " ", "symbols", " ", "native", " ", "to", " ", 
+     "the", " ", "coordinate", " ", "system"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     OverscriptBox["x", "^"], "^=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{"1", ",", "0", ",", "0", ",", "0"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     OverscriptBox["y", "^"], "^=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{"0", ",", "1", ",", "0", ",", "0"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     OverscriptBox["r", "^"], "^=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{"0", ",", "0", ",", "1", ",", "0"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     OverscriptBox["\[Phi]", "^"], "^=", 
+     RowBox[{"Vector2D", "[", 
+      RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "]"}]}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.788919225964452*^9, 3.788919428076569*^9}, {
+   3.7890626241377563`*^9, 3.7890626700209064`*^9}, {3.7890627366563835`*^9, 
+   3.789062743294685*^9}, {3.7890628902794704`*^9, 3.7890629090867915`*^9}, {
+   3.7890630983536096`*^9, 3.7890632372220716`*^9}, {3.7890633718613157`*^9, 
+   3.789063432600733*^9}, {3.7890635343198996`*^9, 3.7890635779582853`*^9}, {
+   3.7890636587606153`*^9, 3.7890637577738576`*^9}, {3.789063790469803*^9, 
+   3.7890638107134085`*^9}, {3.789063932563341*^9, 3.7890639974935594`*^9}, {
+   3.789064036003789*^9, 3.7890641266469707`*^9}, {3.789064169713535*^9, 
+   3.7890642332780404`*^9}, {3.789064324855687*^9, 3.7890643580639296`*^9}, {
+   3.789064513576088*^9, 3.789064525873993*^9}, 3.7890646274214034`*^9, {
+   3.789068362624425*^9, 3.789068412141281*^9}, {3.7890684678258686`*^9, 
+   3.7890684987916126`*^9}, {3.78907082524964*^9, 3.7890709354962626`*^9}, {
+   3.7890709794410925`*^9, 3.789071084705743*^9}, {3.789071186859707*^9, 
+   3.789071238696212*^9}, {3.7890713062880564`*^9, 3.7890713607734838`*^9}, {
+   3.7890723178855596`*^9, 3.789072350641893*^9}, {3.789072493115444*^9, 
+   3.7890725149446774`*^9}, {3.7890725852481527`*^9, 3.789072604458848*^9}, {
+   3.789072636884349*^9, 3.789072650536646*^9}, 3.790046742224538*^9, {
+   3.7900467940177746`*^9, 3.7900468151192317`*^9}, {3.790046860627653*^9, 
+   3.7900468607995095`*^9}, {3.790046902412652*^9, 3.7900469033030643`*^9}, {
+   3.7900469666744814`*^9, 3.7900469888389473`*^9}, 3.7900470950743504`*^9, {
+   3.7900483141673985`*^9, 3.7900483155109043`*^9}, {3.790048873834855*^9, 
+   3.7900488752878284`*^9}, {3.7901232272402134`*^9, 3.790123229880557*^9}, {
+   3.791424272872979*^9, 3.7914242732948112`*^9}, {3.7917699586042867`*^9, 
+   3.791769965131897*^9}},ExpressionUUID->"9c97dccb-655a-4e92-b72d-\
+23bec0026737"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   OverscriptBox["b", "\[RightVector]"], "^=", 
+   RowBox[{
+    RowBox[{"x", " ", "y", " ", 
+     OverscriptBox["r", "^"]}], "+", 
+    RowBox[{"\[Phi]", " ", 
+     OverscriptBox["\[Phi]", "^"]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   OverscriptBox["e", "\[RightVector]"], "^=", 
+   TagBox[
+    OverscriptBox["x", "^"],
+    DisplayForm]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.790048155708434*^9, 3.790048162991203*^9}, {
+  3.7900482143891335`*^9, 3.7900482151859245`*^9}},
+ CellLabel->"In[38]:=",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"]
+},
+WindowSize->{1350, 685},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 34090, 490, 3504, "Text",ExpressionUUID->"dd31002d-3fff-4316-8356-9644c847c7b2"],
+Cell[34651, 512, 29912, 738, 2499, "Input",ExpressionUUID->"9c97dccb-655a-4e92-b72d-23bec0026737"],
+Cell[64566, 1252, 611, 17, 53, "Input",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"]
+}
+]
+*)
+
