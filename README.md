@@ -2,7 +2,7 @@
 Version 4 (the current best version) still has a few bugs in it relating to algebraic manipulations, and may give incorrect results. Obviously don't rely on this for anything important without verifying the results. Additionally, a few functions are not currently implemented, the usage notebook explains all the current issues and what not to use.
 
 # PhysicsVectors
-Mathematica's built-in vectors are lists. These do not have a coordinate system, the user simply must keep track of a particular vector's intended coordinate system themselves, making their usage clunky and error prone. Common actions like adding, dotting, or crossing vectors can only be done programmatically if they are in the same coordinate system, if they aren't, then transformations are required. Keeping track of transformations manually can be confusing with multiple vectors and coordinate systems and unfortunatly the built-in functions are verbose (and overkill) for many operations. 
+Mathematica's built-in vectors are lists. These do not have a coordinate system, the user simply must keep track of a particular vector's intended coordinate system themselves, making their usage clunky and error prone. Additionally, usage of the built-in functions is cluncky and overkill for many operations.
 
 This library seeks to streamline the process of working with vectors (at least in the cartesian, cylindrical, and spherical coordinate systems) by using notations common to physics. 
 
