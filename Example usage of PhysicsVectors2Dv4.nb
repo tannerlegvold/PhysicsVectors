@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     42464,        995]
-NotebookOptionsPosition[     37610,        930]
-NotebookOutlinePosition[     37983,        946]
-CellTagsIndexPosition[     37940,        943]
+NotebookDataLength[     43014,        995]
+NotebookOptionsPosition[     38159,        930]
+NotebookOutlinePosition[     38532,        946]
+CellTagsIndexPosition[     38489,        943]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -30,14 +30,18 @@ Cell[BoxData[
  CellLabel->"In[3]:=",ExpressionUUID->"2bc449ce-bb59-40fc-980d-515882b278a3"],
 
 Cell[TextData[{
- "Now click on ",
+ "Do not evaluate any code using the symbols x, y, r, \[Phi], or any other \
+symbol (function name) defined in the package before evaluating the above \
+line of code. Otherwise you will get naming conflicts. The easiest way to fix \
+this is to call Quit, anywhere in the current notebook (warning this will \
+\[OpenCurlyDoubleQuote]shut down\[CloseCurlyDoubleQuote] the kernel and all \
+variables will lose what is saved in them) and then call the above line of \
+code.\n\nNow click on ",
  Cell[BoxData[
   FormBox[
    RowBox[{"Palettes", "\[Rule]", 
     RowBox[{"2", "D", " ", "Vector", " ", "Library", " ", "Palette"}]}], 
-   TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "52e9f7cd-5ab3-413f-a534-f7017fb4c927"],
+   TraditionalForm]],ExpressionUUID->"52e9f7cd-5ab3-413f-a534-f7017fb4c927"],
  " in the menu bar at the top. You should now have the palette displayed \
 somewhere on the screen.\n\nThere are now four symbols with custom meanings: \
 x y r \[Phi]. You can use these as their standard meanings in a 2-D Cartesian \
@@ -45,16 +49,14 @@ or polar coordinate system to define scalar functions. The library assumes \
 all four coordinates are real, ",
  Cell[BoxData[
   FormBox[
-   RowBox[{"r", ">", "0"}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   RowBox[{"r", ">", "0"}], TraditionalForm]],ExpressionUUID->
   "784120fd-2aad-4f44-8f54-0d5ff3246f13"],
  ", and that ",
  Cell[BoxData[
   FormBox[
    RowBox[{
     RowBox[{"-", "\[Pi]"}], "<", "\[Phi]", "<", "\[Pi]"}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "8f7e38cb-0bab-4bb7-a9f4-4c4d96bcf29e"],
+  ExpressionUUID->"8f7e38cb-0bab-4bb7-a9f4-4c4d96bcf29e"],
  ". Mixing coordinates systems together is fine. Type \[Phi] as Esc phi Esc. "
 }], "Text",
  InitializationCell->True,
@@ -63,8 +65,9 @@ all four coordinates are real, ",
   3.7913988610463467`*^9}, {3.79139890238501*^9, 3.791398947885699*^9}, {
   3.791399009348431*^9, 3.79139902979539*^9}, {3.791399155939824*^9, 
   3.791399180216958*^9}, {3.791405224456208*^9, 3.7914052277469416`*^9}, {
-  3.7914056010740986`*^9, 
-  3.7914056668420258`*^9}},ExpressionUUID->"dc9114b1-c882-42d1-bb3e-\
+  3.7914056010740986`*^9, 3.7914056668420258`*^9}, {3.7920179755811234`*^9, 
+  3.792018448203867*^9}, {3.7920184838513627`*^9, 
+  3.7920185881573668`*^9}},ExpressionUUID->"dc9114b1-c882-42d1-bb3e-\
 f50ef3fbbeea"],
 
 Cell[BoxData[{
@@ -263,10 +266,10 @@ Cell[BoxData[
 Cell[TextData[{
  "Hit Ctrl + z twice to undo that evaluation if you want (this is one of the \
 few cases Undo actually works with this library. It typically doesn\
-\[CloseCurlyQuote]t, this is unfortunate and I am sorry, unfortunately fixing \
-that is a bit beyond my skills). Obviously there is also a ToPolar function \
-that works analogously. You can also select parts of expressions to modify \
-them selectively. The below expression is most easily expressed as ",
+\[CloseCurlyQuote]t, this is unfortunate and I am sorry, but fixing that is a \
+bit beyond my skills). Obviously there is also a ToPolar function that works \
+analogously. You can also select parts of expressions to modify them \
+selectively. The below expression is most easily expressed as ",
  Cell[BoxData[
   FormBox[
    RowBox[{
@@ -274,16 +277,13 @@ them selectively. The below expression is most easily expressed as ",
      FractionBox[
       RowBox[{
        SuperscriptBox["r", "2"], " ", "y"}], "\[Phi]"]}], "+", "\[Phi]"}], 
-   TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "ad456499-1d4c-4d2d-b340-ea4aeefaccb4"],
+   TraditionalForm]],ExpressionUUID->"ad456499-1d4c-4d2d-b340-ea4aeefaccb4"],
  ". Highlight the ",
  Cell[BoxData[
   FormBox[
    RowBox[{
     SuperscriptBox["x", "2"], "+", 
-    SuperscriptBox["y", "2"]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    SuperscriptBox["y", "2"]}], TraditionalForm]],ExpressionUUID->
   "7970c0be-8baf-4dbc-8330-d68b8e2f8186"],
  " term and click ToPolar in the palette. Now highlight the whole expression \
 and click Simplify in the palette (this is the standard Mathematica \
@@ -293,8 +293,8 @@ Simplify). You should get the simplified expression. "
    3.791402121318362*^9, 3.791402173708102*^9}, 3.7914022792525854`*^9, {
    3.7914023181678157`*^9, 3.7914024451862335`*^9}, {3.791403085052718*^9, 
    3.791403136591436*^9}, {3.791403248146329*^9, 3.791403381592639*^9}, {
-   3.791404424581644*^9, 
-   3.791404484688961*^9}},ExpressionUUID->"3879218c-05fd-4ca1-acd9-\
+   3.791404424581644*^9, 3.791404484688961*^9}, {3.792017946112338*^9, 
+   3.7920179464172907`*^9}},ExpressionUUID->"3879218c-05fd-4ca1-acd9-\
 748f715bfdbd"],
 
 Cell[BoxData[
@@ -661,16 +661,16 @@ Cell[TextData[{
   FormBox[
    RowBox[{"(", 
     OverscriptBox["\[DoubleStruckCapitalE]", "\[RightVector]"]}], 
-   TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "0de0f84f-47f1-4522-93f7-6c1a85e20dea"],
+   TraditionalForm]],ExpressionUUID->"0de0f84f-47f1-4522-93f7-6c1a85e20dea"],
  " takes 11 keystrokes). If you have particular letters or symbols you enter \
 often, I advise adding a hotkey to your KeyEventTranslations.tr (for new \
 hotkeys) file or your MenuSetup.tr (for overrding built in hotkeys) file. \
 This is common for power users in the Mathematica community. This post shows \
-how to do it: \n\nIf you want to write expressions using the magnitude and \
-unit vector of a vector, you will need to define these separately. Though \
-they can all be used in an expression at the same time."
+how to do it: \
+https://mathematica.stackexchange.com/questions/6224/best-way-to-add-\
+keyevents-and-faster-quit\n\nIf you want to write expressions using the \
+magnitude and unit vector of a vector, you will need to define these \
+separately. Though they can all be used in an expression at the same time."
 }], "Text",
  CellChangeTimes->{{3.7914255538576374`*^9, 3.791425657280379*^9}, {
   3.791426000736287*^9, 3.791426045167376*^9}, {3.7914288680397196`*^9, 
@@ -679,8 +679,8 @@ they can all be used in an expression at the same time."
   3.791429953674698*^9}, {3.7914300205773373`*^9, 3.791430027185828*^9}, {
   3.7914301020035696`*^9, 3.7914301040815935`*^9}, {3.7914301487761507`*^9, 
   3.791430162944289*^9}, {3.791766419929616*^9, 3.791766430787846*^9}, {
-  3.791768700143117*^9, 
-  3.7917687490628996`*^9}},ExpressionUUID->"b35a92d1-ad8d-4b00-9329-\
+  3.791768700143117*^9, 3.7917687490628996`*^9}, {3.7922041923691473`*^9, 
+  3.792204197341514*^9}},ExpressionUUID->"b35a92d1-ad8d-4b00-9329-\
 a41fa790b963"],
 
 Cell[BoxData[{
@@ -947,56 +947,56 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 179, 3, 39, "Text",ExpressionUUID->"2bf6b46e-c00d-4378-b480-4c5cd593e02a"],
 Cell[740, 25, 258, 4, 32, "Input",ExpressionUUID->"2bc449ce-bb59-40fc-980d-515882b278a3"],
-Cell[1001, 31, 1605, 36, 191, "Text",ExpressionUUID->"dc9114b1-c882-42d1-bb3e-f50ef3fbbeea",
+Cell[1001, 31, 2075, 39, 343, "Text",ExpressionUUID->"dc9114b1-c882-42d1-bb3e-f50ef3fbbeea",
  InitializationCell->True],
-Cell[2609, 69, 555, 17, 64, "Input",ExpressionUUID->"5eba6da9-6ca1-4a44-9358-d1534a8170a3"],
-Cell[3167, 88, 1292, 23, 115, "Text",ExpressionUUID->"173951d8-70f2-493e-b008-c29fb6fa08b4"],
-Cell[4462, 113, 1646, 38, 117, "Text",ExpressionUUID->"35e53f93-926f-4a99-8e02-40f9caebb937"],
-Cell[6111, 153, 508, 14, 50, "Input",ExpressionUUID->"60810e19-b8b9-4b89-ad92-4eeffcd9fc0a"],
-Cell[6622, 169, 624, 17, 50, "Input",ExpressionUUID->"22ba88bc-a4d9-4704-9f48-acfc204832f1"],
-Cell[7249, 188, 594, 10, 65, "Text",ExpressionUUID->"f88c3b10-b8a4-43ae-aeb9-79e62a1fba27"],
-Cell[7846, 200, 678, 18, 50, "Input",ExpressionUUID->"2aa90279-23dc-4031-aa50-fd726c137e75"],
-Cell[8527, 220, 601, 17, 50, "Input",ExpressionUUID->"11602737-e8a9-4b9d-b1e7-6dc9bcae380f"],
-Cell[9131, 239, 647, 11, 65, "Text",ExpressionUUID->"71c1f4aa-9f25-4f43-976d-1dbacc15abf9"],
-Cell[9781, 252, 288, 8, 38, "Input",ExpressionUUID->"3ff8732e-7222-43e4-825c-3e0d8c32065d"],
-Cell[10072, 262, 1606, 35, 226, "Text",ExpressionUUID->"3879218c-05fd-4ca1-acd9-748f715bfdbd"],
-Cell[11681, 299, 490, 12, 59, "Input",ExpressionUUID->"95daadda-352e-4e86-803b-abcbfd684e08"],
-Cell[12174, 313, 1397, 34, 115, "Text",ExpressionUUID->"cc112caf-6da8-4607-b026-7de880bd8f26",
+Cell[3079, 72, 555, 17, 64, "Input",ExpressionUUID->"5eba6da9-6ca1-4a44-9358-d1534a8170a3"],
+Cell[3637, 91, 1292, 23, 115, "Text",ExpressionUUID->"173951d8-70f2-493e-b008-c29fb6fa08b4"],
+Cell[4932, 116, 1646, 38, 117, "Text",ExpressionUUID->"35e53f93-926f-4a99-8e02-40f9caebb937"],
+Cell[6581, 156, 508, 14, 50, "Input",ExpressionUUID->"60810e19-b8b9-4b89-ad92-4eeffcd9fc0a"],
+Cell[7092, 172, 624, 17, 50, "Input",ExpressionUUID->"22ba88bc-a4d9-4704-9f48-acfc204832f1"],
+Cell[7719, 191, 594, 10, 65, "Text",ExpressionUUID->"f88c3b10-b8a4-43ae-aeb9-79e62a1fba27"],
+Cell[8316, 203, 678, 18, 50, "Input",ExpressionUUID->"2aa90279-23dc-4031-aa50-fd726c137e75"],
+Cell[8997, 223, 601, 17, 50, "Input",ExpressionUUID->"11602737-e8a9-4b9d-b1e7-6dc9bcae380f"],
+Cell[9601, 242, 647, 11, 65, "Text",ExpressionUUID->"71c1f4aa-9f25-4f43-976d-1dbacc15abf9"],
+Cell[10251, 255, 288, 8, 38, "Input",ExpressionUUID->"3ff8732e-7222-43e4-825c-3e0d8c32065d"],
+Cell[10542, 265, 1575, 32, 200, "Text",ExpressionUUID->"3879218c-05fd-4ca1-acd9-748f715bfdbd"],
+Cell[12120, 299, 490, 12, 59, "Input",ExpressionUUID->"95daadda-352e-4e86-803b-abcbfd684e08"],
+Cell[12613, 313, 1397, 34, 115, "Text",ExpressionUUID->"cc112caf-6da8-4607-b026-7de880bd8f26",
  InitializationCell->True],
-Cell[13574, 349, 250, 6, 32, "Input",ExpressionUUID->"567bba3f-0241-48f9-9a5d-ac321438e97e"],
-Cell[13827, 357, 453, 8, 90, "Text",ExpressionUUID->"29498afa-5bb6-4def-9b21-a288d9f0b120"],
-Cell[14283, 367, 738, 15, 90, "Text",ExpressionUUID->"b42f464c-bd92-4ebc-9eec-82e7d5bcdb65"],
-Cell[15024, 384, 1326, 24, 217, "Text",ExpressionUUID->"5f95a34c-071a-405a-a974-508b7fe040f5"],
-Cell[16353, 410, 708, 16, 48, "Input",ExpressionUUID->"8a98d794-12fb-4e40-8ba4-c7edd9abb22b"],
-Cell[17064, 428, 568, 11, 141, "Text",ExpressionUUID->"0e5f9500-6573-42dd-91c0-8cd7c31a0fa7"],
+Cell[14013, 349, 250, 6, 32, "Input",ExpressionUUID->"567bba3f-0241-48f9-9a5d-ac321438e97e"],
+Cell[14266, 357, 453, 8, 90, "Text",ExpressionUUID->"29498afa-5bb6-4def-9b21-a288d9f0b120"],
+Cell[14722, 367, 738, 15, 90, "Text",ExpressionUUID->"b42f464c-bd92-4ebc-9eec-82e7d5bcdb65"],
+Cell[15463, 384, 1326, 24, 217, "Text",ExpressionUUID->"5f95a34c-071a-405a-a974-508b7fe040f5"],
+Cell[16792, 410, 708, 16, 48, "Input",ExpressionUUID->"8a98d794-12fb-4e40-8ba4-c7edd9abb22b"],
+Cell[17503, 428, 568, 11, 141, "Text",ExpressionUUID->"0e5f9500-6573-42dd-91c0-8cd7c31a0fa7"],
 Cell[CellGroupData[{
-Cell[17657, 443, 606, 16, 37, "Input",ExpressionUUID->"80f66343-903c-4fd8-8f6f-33ae8dd88afe"],
-Cell[18266, 461, 474, 12, 41, "Output",ExpressionUUID->"f6c22c6c-5c69-4380-a634-857ab4affcbc"]
+Cell[18096, 443, 606, 16, 37, "Input",ExpressionUUID->"80f66343-903c-4fd8-8f6f-33ae8dd88afe"],
+Cell[18705, 461, 474, 12, 41, "Output",ExpressionUUID->"f6c22c6c-5c69-4380-a634-857ab4affcbc"]
 }, Open  ]],
-Cell[18755, 476, 896, 20, 123, "Text",ExpressionUUID->"8bb4dc41-0287-4ade-8f46-2b7928914529"],
-Cell[19654, 498, 675, 18, 51, "Input",ExpressionUUID->"f3b57ce7-36b5-478a-a153-75ec562821cd"],
-Cell[20332, 518, 842, 14, 115, "Text",ExpressionUUID->"c1a47575-32a3-4507-8e59-acc0970cd28c"],
-Cell[21177, 534, 294, 6, 34, "Input",ExpressionUUID->"41c4c3e4-ccc3-4d4c-96e0-900dbe225d85"],
-Cell[21474, 542, 662, 11, 90, "Text",ExpressionUUID->"fa9b7868-12d2-4617-a97b-606aab058683"],
-Cell[22139, 555, 551, 16, 34, "Input",ExpressionUUID->"a08200e4-0f9c-4176-bbf5-5f4662911e32"],
-Cell[22693, 573, 501, 14, 55, "Input",ExpressionUUID->"8ecdd6fd-59a6-431d-98cc-8aded034f54a"],
-Cell[23197, 589, 1219, 22, 191, "Text",ExpressionUUID->"3665eca9-ced2-4211-951f-690d98373aa9"],
-Cell[24419, 613, 486, 13, 35, "Input",ExpressionUUID->"5a00243d-762c-4ed3-90bc-5811f5c2b573"],
-Cell[24908, 628, 701, 13, 166, "Text",ExpressionUUID->"858311bd-8dba-412a-b474-84915e6d5614"],
-Cell[25612, 643, 492, 12, 53, "Input",ExpressionUUID->"c3fec08a-7c12-4232-8cc2-45e341c54fb0"],
-Cell[26107, 657, 1458, 26, 219, "Text",ExpressionUUID->"b35a92d1-ad8d-4b00-9329-a41fa790b963"],
-Cell[27568, 685, 736, 17, 81, "Input",ExpressionUUID->"0cbf2f41-f93c-41ba-8d22-3ac558ed5346"],
-Cell[28307, 704, 381, 8, 37, "Input",ExpressionUUID->"657cd441-7332-46d3-a043-e6f57d3678fe"],
-Cell[28691, 714, 501, 10, 115, "Text",ExpressionUUID->"cdde2a4d-442d-4441-8362-f09c0e6e1ba4"],
-Cell[29195, 726, 325, 7, 34, "Input",ExpressionUUID->"f0149604-3643-45ba-8137-a3a5ea6bcb41"],
-Cell[29523, 735, 602, 12, 166, "Text",ExpressionUUID->"63994bdf-1958-4bfc-863a-755705b05f62"],
-Cell[30128, 749, 388, 9, 38, "Input",ExpressionUUID->"70942801-7651-45fc-a80f-a20ebe2aad57"],
-Cell[30519, 760, 306, 7, 32, "Input",ExpressionUUID->"6ff1e245-5e80-49de-9f50-af1bb10d118e"],
-Cell[30828, 769, 649, 11, 90, "Text",ExpressionUUID->"834bcb1d-f0c2-4f99-a2a2-2922a031d5a9"],
-Cell[31480, 782, 2530, 69, 165, "Input",ExpressionUUID->"605e25bc-d777-4d24-8c10-14fcaa94756c"],
-Cell[34013, 853, 1875, 28, 368, "Text",ExpressionUUID->"74d80a36-e7ed-4c18-8f4e-196e08b5cebc"],
-Cell[35891, 883, 775, 27, 68, "Input",ExpressionUUID->"3561ab44-3fd7-4e61-a1d7-4113f7e83f02"],
-Cell[36669, 912, 937, 16, 166, "Text",ExpressionUUID->"b05c5953-d902-41a6-9785-5fec8439adec"]
+Cell[19194, 476, 896, 20, 123, "Text",ExpressionUUID->"8bb4dc41-0287-4ade-8f46-2b7928914529"],
+Cell[20093, 498, 675, 18, 51, "Input",ExpressionUUID->"f3b57ce7-36b5-478a-a153-75ec562821cd"],
+Cell[20771, 518, 842, 14, 115, "Text",ExpressionUUID->"c1a47575-32a3-4507-8e59-acc0970cd28c"],
+Cell[21616, 534, 294, 6, 34, "Input",ExpressionUUID->"41c4c3e4-ccc3-4d4c-96e0-900dbe225d85"],
+Cell[21913, 542, 662, 11, 90, "Text",ExpressionUUID->"fa9b7868-12d2-4617-a97b-606aab058683"],
+Cell[22578, 555, 551, 16, 34, "Input",ExpressionUUID->"a08200e4-0f9c-4176-bbf5-5f4662911e32"],
+Cell[23132, 573, 501, 14, 55, "Input",ExpressionUUID->"8ecdd6fd-59a6-431d-98cc-8aded034f54a"],
+Cell[23636, 589, 1219, 22, 191, "Text",ExpressionUUID->"3665eca9-ced2-4211-951f-690d98373aa9"],
+Cell[24858, 613, 486, 13, 35, "Input",ExpressionUUID->"5a00243d-762c-4ed3-90bc-5811f5c2b573"],
+Cell[25347, 628, 701, 13, 166, "Text",ExpressionUUID->"858311bd-8dba-412a-b474-84915e6d5614"],
+Cell[26051, 643, 492, 12, 53, "Input",ExpressionUUID->"c3fec08a-7c12-4232-8cc2-45e341c54fb0"],
+Cell[26546, 657, 1568, 26, 269, "Text",ExpressionUUID->"b35a92d1-ad8d-4b00-9329-a41fa790b963"],
+Cell[28117, 685, 736, 17, 81, "Input",ExpressionUUID->"0cbf2f41-f93c-41ba-8d22-3ac558ed5346"],
+Cell[28856, 704, 381, 8, 37, "Input",ExpressionUUID->"657cd441-7332-46d3-a043-e6f57d3678fe"],
+Cell[29240, 714, 501, 10, 115, "Text",ExpressionUUID->"cdde2a4d-442d-4441-8362-f09c0e6e1ba4"],
+Cell[29744, 726, 325, 7, 34, "Input",ExpressionUUID->"f0149604-3643-45ba-8137-a3a5ea6bcb41"],
+Cell[30072, 735, 602, 12, 166, "Text",ExpressionUUID->"63994bdf-1958-4bfc-863a-755705b05f62"],
+Cell[30677, 749, 388, 9, 38, "Input",ExpressionUUID->"70942801-7651-45fc-a80f-a20ebe2aad57"],
+Cell[31068, 760, 306, 7, 32, "Input",ExpressionUUID->"6ff1e245-5e80-49de-9f50-af1bb10d118e"],
+Cell[31377, 769, 649, 11, 90, "Text",ExpressionUUID->"834bcb1d-f0c2-4f99-a2a2-2922a031d5a9"],
+Cell[32029, 782, 2530, 69, 165, "Input",ExpressionUUID->"605e25bc-d777-4d24-8c10-14fcaa94756c"],
+Cell[34562, 853, 1875, 28, 368, "Text",ExpressionUUID->"74d80a36-e7ed-4c18-8f4e-196e08b5cebc"],
+Cell[36440, 883, 775, 27, 68, "Input",ExpressionUUID->"3561ab44-3fd7-4e61-a1d7-4113f7e83f02"],
+Cell[37218, 912, 937, 16, 166, "Text",ExpressionUUID->"b05c5953-d902-41a6-9785-5fec8439adec"]
 }
 ]
 *)
