@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     65673,       1286]
-NotebookOptionsPosition[     65181,       1271]
-NotebookOutlinePosition[     65522,       1286]
-CellTagsIndexPosition[     65479,       1283]
+NotebookDataLength[     67845,       1337]
+NotebookOptionsPosition[     67258,       1321]
+NotebookOutlinePosition[     67599,       1336]
+CellTagsIndexPosition[     67556,       1333]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -527,8 +527,33 @@ Cell[BoxData[
        RowBox[{"r", ">", "0"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
    "\[IndentingNewLine]", 
    RowBox[{"(*", 
-    RowBox[{"Vector", " ", "addition"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+    "Helper", " ", "functions", " ", "for", " ", "testing", " ", "what", " ", 
+     "\"\<type\>\"", " ", "something", " ", 
+     RowBox[{"is", "."}]}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{
+    RowBox[{
+     RowBox[{"IsScalar2D", "[", "c_", "]"}], ":=", 
+     RowBox[{"Not", "@", 
+      RowBox[{"MemberQ", "[", 
+       RowBox[{"c", ",", "Vector2D", ",", "Infinity", ",", 
+        RowBox[{"Heads", "\[Rule]", "True"}]}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"IsVector2D", "[", "v_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"Head", "[", "v", "]"}], "===", "Vector2D"}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{
+     "Not", " ", "too", " ", "sure", " ", "if", " ", "this", " ", "is", " ", 
+      "the", " ", 
+      RowBox[{"best", "/", "\"\<correct\>\""}], " ", "way", " ", "to", " ", 
+      "do", " ", 
+      RowBox[{"it", "."}]}], "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"Vector", " ", "addition"}], "*)"}], "\[IndentingNewLine]", 
     RowBox[{"Vector2D", "/:", 
      RowBox[{"Plus", "[", 
       RowBox[{"v1_Vector2D", ",", "v2_Vector2D"}], "]"}], ":=", 
@@ -546,14 +571,25 @@ Cell[BoxData[
       "multiplication", " ", "to", " ", "give", " ", "it", " ", "evaluation", 
       " ", "precedence"}]}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"Vector2D", "/:", 
+    RowBox[{"CenterDot", "/:", 
      RowBox[{"a_.", " ", 
-      RowBox[{"b_Vector2D", "\[CenterDot]", "c_"}], " ", "d_Vector2D"}], ":=", 
+      RowBox[{"b_", "\[CenterDot]", "c_"}], " ", "d_"}], ":=", 
      RowBox[{
-      RowBox[{"(", 
-       RowBox[{"a", " ", "b"}], ")"}], "\[CenterDot]", 
-      RowBox[{"(", 
-       RowBox[{"c", " ", "d"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"a", " ", "b"}], ")"}], "\[CenterDot]", 
+       RowBox[{"(", 
+        RowBox[{"c", " ", "d"}], ")"}]}], "/;", 
+      RowBox[{"And", "@@", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"IsScalar2D", "/@", 
+          RowBox[{"{", 
+           RowBox[{"a", ",", "c"}], "}"}]}], "<>", 
+         RowBox[{"IsVector2D", "/@", 
+          RowBox[{"{", 
+           RowBox[{"b", ",", "d"}], "}"}]}]}], ")"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"Vector2D", "/:", 
      RowBox[{"CenterDot", "[", 
@@ -632,7 +668,9 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"Vector2D", "/:", 
      RowBox[{"Times", "[", 
-      RowBox[{"c_", ",", "v_Vector2D"}], "]"}], ":=", 
+      RowBox[{
+       RowBox[{"c_", "/;", 
+        RowBox[{"IsScalar2D", "[", "c", "]"}]}], ",", "v_Vector2D"}], "]"}], ":=", 
      RowBox[{"Vector2D", "@@", 
       RowBox[{"(", 
        RowBox[{"c", " ", 
@@ -1247,8 +1285,13 @@ Cell[BoxData[
    3.7900483141673985`*^9, 3.7900483155109043`*^9}, {3.790048873834855*^9, 
    3.7900488752878284`*^9}, {3.7901232272402134`*^9, 3.790123229880557*^9}, {
    3.791424272872979*^9, 3.7914242732948112`*^9}, {3.7917699586042867`*^9, 
-   3.791769965131897*^9}},ExpressionUUID->"9c97dccb-655a-4e92-b72d-\
-23bec0026737"],
+   3.791769965131897*^9}, {3.792286698915493*^9, 3.79228687215954*^9}, {
+   3.7922869179861956`*^9, 3.7922869727018642`*^9}, {3.792287011820628*^9, 
+   3.792287031148895*^9}, {3.792287260311759*^9, 3.7922873645561266`*^9}, {
+   3.792287476635419*^9, 3.792287506315731*^9}, {3.792287689464379*^9, 
+   3.7922876941373577`*^9}, 3.7922878204218593`*^9, {3.79228795701366*^9, 
+   3.792287960138033*^9}, {3.7922881086775007`*^9, 3.7922881186337166`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"9c97dccb-655a-4e92-b72d-23bec0026737"],
 
 Cell[BoxData[{
  RowBox[{
@@ -1267,10 +1310,17 @@ Cell[BoxData[{
     DisplayForm]}], ";"}]}], "Input",
  CellChangeTimes->{{3.790048155708434*^9, 3.790048162991203*^9}, {
   3.7900482143891335`*^9, 3.7900482151859245`*^9}},
- CellLabel->"In[38]:=",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"]
+ CellLabel->"In[37]:=",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"],
+
+Cell[BoxData[
+ RowBox[{
+  OverscriptBox["e", "\[RightVector]"], "\[CenterDot]", 
+  OverscriptBox["b", "\[RightVector]"]}]], "Input",
+ CellChangeTimes->{{3.7922880180706663`*^9, 3.79228801924686*^9}},
+ CellLabel->"In[39]:=",ExpressionUUID->"73172f7e-ea49-4e39-a12c-9882c026f827"]
 },
-WindowSize->{1350, 685},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowSize->{681, 676},
+WindowMargins->{{-7, Automatic}, {Automatic, 0}},
 FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
 StyleDefinitions->"Default.nb"
 ]
@@ -1285,9 +1335,10 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 34090, 490, 3504, "Text",ExpressionUUID->"dd31002d-3fff-4316-8356-9644c847c7b2"],
-Cell[34651, 512, 29912, 738, 2499, "Input",ExpressionUUID->"9c97dccb-655a-4e92-b72d-23bec0026737"],
-Cell[64566, 1252, 611, 17, 53, "Input",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"]
+Cell[558, 20, 34090, 490, 6810, "Text",ExpressionUUID->"dd31002d-3fff-4316-8356-9644c847c7b2"],
+Cell[34651, 512, 31708, 781, 3172, "Input",ExpressionUUID->"9c97dccb-655a-4e92-b72d-23bec0026737"],
+Cell[66362, 1295, 611, 17, 53, "Input",ExpressionUUID->"e5f5fb25-d35b-4be6-83e4-1b2926a825fd"],
+Cell[66976, 1314, 278, 5, 32, "Input",ExpressionUUID->"73172f7e-ea49-4e39-a12c-9882c026f827"]
 }
 ]
 *)
